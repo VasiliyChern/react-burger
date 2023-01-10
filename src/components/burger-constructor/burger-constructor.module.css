@@ -1,0 +1,29 @@
+.container_layers {
+  display: flex; 
+  flex-direction: column;
+  gap: 16px;
+  width: 584px;
+  height: 776px;
+}
+
+.main_layers {
+  display: flex; 
+  flex-direction: column;
+  gap: 16px;
+  overflow: auto;
+}
+
+.main_layer {
+  display: flex; 
+  flex-direction: row;
+  align-items: center;
+}
+
+.make_order {
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 536px;
+  height: 100px;
+}
