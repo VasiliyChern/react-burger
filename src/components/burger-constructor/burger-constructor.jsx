@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.css';
 import {DragIcon, ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import { ingredientType } from "../utils/types";
 
 const BurgerConstructor = props => {
-  const currentBun = props.data[0];
+  const currentBun: ingredientType = props.data[0];
   
   const getOrderItems = props.data.filter(elem => elem.type !== "bun");
 
@@ -35,7 +36,7 @@ const BurgerConstructor = props => {
     </div>
 
     <div className={styles.main_layers}>
-      {getOrderItems.map( item => (
+      {getOrderItems.map( (item: ingredientType) => (
             <div key={item._id} className={`${styles.main_layer} pr-2`}>
               <div className='mr-2'>
                 <DragIcon type="primary" />

@@ -1,4 +1,4 @@
-function GetData() {
+function getData() {
   return [{
        "_id":"60666c42cc7b410027a1a9b1",
        "name":"Краторная булка N-200i",
@@ -211,8 +211,8 @@ function GetData() {
     }];
 }
 
-function GetElementsForType(elementType) {
-  return GetData().filter(elem => elem.type === elementType);
+function getElementsForType(elementType) {
+  return getData().filter(elem => elem.type === elementType);
 }
 
-export {GetData, GetElementsForType};
+export {getData, getElementsForType};

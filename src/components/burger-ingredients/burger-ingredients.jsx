@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components' 
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components' 
 import BurgerIngredient from '../burger-ingredient/burger-ingredient'; 
-import {GetElementsForType} from '../utils/data'; 
+import { getElementsForType } from '../utils/data'; 
+import { ingredientType } from "../utils/types";
 
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState('bun')
@@ -18,6 +19,9 @@ function BurgerIngredients() {
          break;
        case "main":
          result = "Начинки";
+         break;
+       default:
+         result = "Не найдено";
          break;
     }
    return result;
@@ -52,7 +56,7 @@ function BurgerIngredients() {
           <p className="text text_type_main-medium mb-6">{getSectionName(current)}</p>
        
           <div className={`${styles.section_tab} ml-4`}>
-            {GetElementsForType(current).map( (item) => { 
+            {getElementsForType(current).map( (item: ingredientType) => { 
               return ( 
                 <BurgerIngredient key={item._id} id={item._id} name={item.name} price={item.price} image={item.image} count={getValueCounter(item._id)} />
               ) } ) }
