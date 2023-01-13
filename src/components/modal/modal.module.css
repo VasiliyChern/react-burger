@@ -1,0 +1,28 @@
+.modalwindow {
+    max-width: 2080px;
+}
+
+.modalcontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 40px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #1C1C21;
+    height: inherit;
+    width: 720px;
+    transform: translate(-50%, -50%);
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 60px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 96%;
+    align-items: center;
+}

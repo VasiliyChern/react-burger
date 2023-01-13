@@ -1,0 +1,9 @@
+.modaloverlay {
+    position: fixed;
+    background-color: rgb(0, 0, 0, 0.6);
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 2080px;
+    height: 100%;
+}
