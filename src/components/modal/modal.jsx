@@ -6,24 +6,22 @@ import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const Modal = (props) => {
-  const [isOpen, setIsOpen] = React.useState(true);
   
   React.useEffect(() => {
-    function onKey(e) {
+
+    function handleEscape(e) {
       if (e.key === "Escape") {
-        setIsOpen(false); 
         props.onClose();
       }
     }
 
-    if (isOpen) {
-      document.addEventListener('keydown', onKey)
-
-      return () => {
-        document.removeEventListener('keydown', onKey);
-      }
+    document.addEventListener('keydown', handleEscape)
+  
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
     }
-  }, [isOpen])
+
+  }, [])
   
   return ReactDOM.createPortal( (
     <section className={styles.modalwindow}>

@@ -4,6 +4,7 @@ import styles from './burger-constructor.module.css';
 import {DragIcon, ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
+import { ingredientType } from '../utils/types';
 
 const BurgerConstructor = (props) => {
   const [showOrder, setShowOrder] = useState(false);
@@ -91,20 +92,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-     _id: PropTypes.string.isRequired,
-     name: PropTypes.string.isRequired,
-     type: PropTypes.string.isRequired,
-     proteins: PropTypes.number.isRequired,
-     fat: PropTypes.number.isRequired,
-     carbohydrates: PropTypes.number.isRequired,
-     calories: PropTypes.number.isRequired,
-     price: PropTypes.number.isRequired,
-     image: PropTypes.string.isRequired,
-     image_mobile: PropTypes.string.isRequired,
-     image_large: PropTypes.string.isRequired,
-     __v: PropTypes.number.isRequired
-   })).isRequired
+  data: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerConstructor;

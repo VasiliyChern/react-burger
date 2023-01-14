@@ -5,6 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient'; 
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from '../modal/modal';
+import { ingredientType } from '../utils/types';
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('bun');
@@ -109,7 +110,7 @@ const BurgerIngredients = (props) => {
               {ingredientsForType(current).map( (item) => { 
                 return ( 
                   <div key={item._id} onClick={() => openIngredient(item._id)}>
-                    <BurgerIngredient id={item._id} name={item.name} price={item.price} image={item.image} count={getValueCounter(item._id, item.type)} />
+                    <BurgerIngredient ingredient={item} count={getValueCounter(item._id, item.type)} />
                   </div>
                 ) } ) }
             </div>
@@ -120,14 +121,7 @@ const BurgerIngredients = (props) => {
       </div>
       {showIngredient &&
         (<Modal onClose={closeModalPopup} title="Детали ингредиента">
-          <IngredientDetails
-            name={selectedIngredient.name}
-            proteins={selectedIngredient.proteins}
-            fat={selectedIngredient.fat}
-            carbohydrates={selectedIngredient.carbohydrates}
-            calories={selectedIngredient.calories}
-            image_large={selectedIngredient.image_large}
-          />
+          <IngredientDetails ingredient={selectedIngredient} />
         </Modal>)
       }
     </>
@@ -135,20 +129,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-     _id: PropTypes.string.isRequired,
-     name: PropTypes.string.isRequired,
-     type: PropTypes.string.isRequired,
-     proteins: PropTypes.number.isRequired,
-     fat: PropTypes.number.isRequired,
-     carbohydrates: PropTypes.number.isRequired,
-     calories: PropTypes.number.isRequired,
-     price: PropTypes.number.isRequired,
-     image: PropTypes.string.isRequired,
-     image_mobile: PropTypes.string.isRequired,
-     image_large: PropTypes.string.isRequired,
-     __v: PropTypes.number.isRequired
-   })).isRequired
+  data: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerIngredients;

@@ -19,15 +19,21 @@ const App = () => {
     setLoading(true);
 
     fetch(apiUrl)
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        else {
+          return Promise.reject(new Error(`Ошибка при выполнении запроса данных. Информация об ошибке ${res.status} (${res.statusText})`))
+        }
+      })
       .then(data => {
         setApiData(data); 
-        setLoading(false);
       })
       .catch(e => {
         setError(true);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
