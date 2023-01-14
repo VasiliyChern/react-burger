@@ -1,0 +1,25 @@
+.image {
+  height: 240px;
+  width: 480px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.description {
+  width: 120px;
+  text-align: center;
+}
+
+.popup {
+  max-width: 2080px;
+} 

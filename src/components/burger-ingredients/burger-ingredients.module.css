@@ -1,0 +1,42 @@
+.container_ingredients {
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 600px;
+  height: 912px;
+  margin: 0; 
+  padding: 0;
+}
+
+.header_ingredients {
+  padding: 0;
+}
+
+.tab_ingredients {
+  display: flex; 
+  padding: 0;
+}
+
+.container_tabs {
+  display: flex; 
+  flex-direction: column;
+  height: 730px;
+  overflow: auto;
+  padding: 0;
+}
+
+.section {
+  margin: 0; 
+  padding: 0;
+}
+
+.section_tab {
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 24px;
+  row-gap: 32px;
+  flex-wrap: wrap;
+  padding: 0;
+}
