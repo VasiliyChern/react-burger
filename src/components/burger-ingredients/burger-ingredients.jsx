@@ -1,84 +1,52 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components' 
-import BurgerIngredient from '../burger-ingredient/burger-ingredient'; 
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import TabIngredients from '../tab-ingredients/tab-ingredients'; 
 import Modal from '../modal/modal';
-import { ingredientType } from '../utils/types';
+import { OfferContext } from '../../services/burger-context';
 
-const BurgerIngredients = (props) => {
-  const [current, setCurrent] = React.useState('bun');
+const BurgerIngredients = () => {
+  const {offerContext} = useContext(OfferContext);
+
+  const [current, setCurrent] = useState('bun');
+
   const [showIngredient, setShowIngredient] = useState(false);
-  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
-
-  const bunIngredients = props.data.filter(elem => elem.type === "bun");
-  const sauceIngredients = props.data.filter(elem => elem.type === "sauce");
-  const mainIngredients = props.data.filter(elem => elem.type === "main");
-
-  const ingredientsForType = (elementType) => {
-    let result = [];
-    switch (elementType) {
-       case "bun":
-         result = bunIngredients;
-         break;
-       case "sauce":
-         result = sauceIngredients;
-         break;
-       case "main":
-         result = mainIngredients;
-         break;
-       default:
-         result = [];
-         break;
-    }
-    return result;
-  };
-
-  const getIngredientForId = (id) => {
-    if (props !== null && props.data !== undefined && props.data.length > 0 && props.data[0] !== null) {
-      return props.data.find(elem => elem._id === id);
-    }
-    return null;
-  };
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
   
+  const bunTitle = "Булки";
+  const sauceTitle = "Соусы";
+  const mainTitle = "Начинки";
 
-  const openIngredient = (id) => {
-    let item = getIngredientForId(id);
-    if (item !== null && item !== undefined) {
-      setSelectedIngredient(item);
-      setShowIngredient(true);
-    }
-  }
-
+  const bunIngredients = useMemo(
+    () => offerContext.data.filter(elem => elem.type === "bun"),
+    [offerContext.data]
+  );
+  const sauceIngredients = useMemo(
+    () => offerContext.data.filter(elem => elem.type === "sauce"),
+    [offerContext.data]
+  );
+  const mainIngredients = useMemo(
+    () => offerContext.data.filter(elem => elem.type === "main"),
+    [offerContext.data]
+  );
+  
   const closeModalPopup = () => {
     setSelectedIngredient(null);
     setShowIngredient(false);
-  }
-  
-  const getSectionName = (currentTab) => {
-    let result = "";
-    switch (currentTab) {
-       case "bun":
-         result = "Булки";
-         break;
-       case "sauce":
-         result = "Соусы";
-         break;
-       case "main":
-         result = "Начинки";
-         break;
-       default:
-         result = "Не найдено";
-         break;
-    }
-   return result;
   };
   
-  const currentBun = props.data.find(elem => elem.type === "bun");
+  const onTabClick = (value) => {
+    setCurrent(value);
+    const elem = document.getElementById(value + 'tab');
+    if (elem) {
+        elem.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-  const getValueCounter = (id, type) => {
-    return (id === currentBun._id || type !== "bun") ? 1 : 0;
+  const openIngredient = (item) => {
+    setSelectedIngredient(item);
+    setShowIngredient(true);
   };
 
   return (
@@ -90,46 +58,31 @@ const BurgerIngredients = (props) => {
         </div>
      
         <div className={`${styles.tab_ingredients}`}>
-          <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
-            {getSectionName('bun')}
+          <Tab value="bun" active={current === 'bun'} onClick={onTabClick}>
+            {bunTitle}
           </Tab>
-          <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
-            {getSectionName('sauce')}
+          <Tab value="sauce" active={current === 'sauce'} onClick={onTabClick}>
+            {sauceTitle}
           </Tab>
-          <Tab value="main" active={current === 'main'} onClick={setCurrent}>
-            {getSectionName('main')}
+          <Tab value="main" active={current === 'main'} onClick={onTabClick}>
+            {mainTitle}
           </Tab>
         </div>
      
         <div className={`${styles.container_tabs} mt-10 mb-10`}>
-     
-          <section className={styles.section}>
-            <p className="text text_type_main-medium mb-6">{getSectionName(current)}</p>
-         
-            <div className={`${styles.section_tab} ml-4`}>
-              {ingredientsForType(current).map( (item) => { 
-                return ( 
-                  <div key={item._id} onClick={() => openIngredient(item._id)}>
-                    <BurgerIngredient ingredient={item} count={getValueCounter(item._id, item.type)} />
-                  </div>
-                ) } ) }
-            </div>
-          </section>
-     
+          <TabIngredients ingredients={bunIngredients} title={bunTitle} onClick={openIngredient} id={"buntab"} />
+          <TabIngredients ingredients={sauceIngredients} title={sauceTitle} onClick={openIngredient} id={"saucetab"} />
+          <TabIngredients ingredients={mainIngredients} title={mainTitle} onClick={openIngredient} id={"maintab"} />
         </div>
      
       </div>
       {showIngredient &&
-        (<Modal onClose={closeModalPopup} title="Детали ингредиента">
+        <Modal onClose={closeModalPopup} title="Детали ингредиента">
           <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>)
+        </Modal>
       }
     </>
   );
 }
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
-};
 
 export default BurgerIngredients;

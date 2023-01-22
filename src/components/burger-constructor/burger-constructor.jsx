@@ -1,41 +1,60 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import {DragIcon, ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
-import { ingredientType } from '../utils/types';
+import { SelectionContext, OrderNumberContext } from '../../services/burger-context';
+import { postApiBurgerOrder } from '../../services/utils/data';
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
+  const {selectionContext} = useContext(SelectionContext);
+  const {orderNum, setOrderNum} = useContext(OrderNumberContext);
+
   const [showOrder, setShowOrder] = useState(false);
 
-  const orderNum = "034536";
+  const currentBun = useMemo(
+    () => 
+      selectionContext !== '' && selectionContext.find(elem => elem.value.type === "bun").value
+  , [selectionContext]);
+  
+  const filling = useMemo(
+    () =>
+      selectionContext !== '' && selectionContext.filter(elem => elem.value.type !== "bun")
+  , [selectionContext]);
 
-  const currentBun = props.data.find(elem => elem.type === "bun");
-
-  const getOrderItems = props.data.filter(elem => elem.type !== "bun");
-
-  const getCostOrder = () => {
+  const totalPrice = useMemo(
+    ()=> {
     let total = 0;
-    if (props.data !== undefined && props.data.length > 0 && props.data[0] !== null) {
-      for (var i = 0; i < props.data.length; i++) {
-        if (props.data[i].type !== "bun") {
-          total += props.data[i].price;
-        }
+    if (currentBun !== '') {
+      total += currentBun.price * 2;
+    }
+    if (filling !== '') {
+      for (var i = 0; i < filling.length; i++) {
+        total += filling[i].value.price;
       }
-      total += currentBun.price; // цена булки сверху и снизу
     }
     return total;
-  };
+  }, [currentBun, filling]);
 
   const doOrder = () => {
+    let orderIds = selectionContext.map( item => item.value._id);
+
+    postApiBurgerOrder(orderIds)
+      .then(data => setOrderNum(data))
+      .catch(error => console.error(error));
+
     setShowOrder(true);
-  }
+  };
 
   const closeModalPopup = () => {
     setShowOrder(false);
   }
-  
+
+  const returnedOrderNumber = useMemo( () => {
+    return orderNum ? orderNum.order.number : 0
+    }, [orderNum]
+  );
+
   return (
     <section className={`${styles.container_layers} mt-25 ml-4`}>
       {currentBun &&
@@ -51,48 +70,43 @@ const BurgerConstructor = (props) => {
       }
     
       <div className={styles.main_layers}>
-        {getOrderItems.map( (item) => (
-              <div key={item._id} className={`${styles.main_layer} pr-2`}>
+        {filling && filling.map( (item) => (
+              <div key={item.id} className={`${styles.main_layer} pr-2`}>
                 <div className='mr-2'>
                   <DragIcon type="primary" />
                 </div>
-                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image_mobile} />
+                <ConstructorElement text={item.value.name} price={item.value.price} thumbnail={item.value.image_mobile} />
               </div>
           ))}
       </div>
     
-    {currentBun &&
-      <div className='pr-4 pl-8 mb-6'>
-        <ConstructorElement
-           type="bottom"
-           isLocked={true}
-           text={currentBun.name + " (низ)"}
-           price={currentBun.price}
-           thumbnail={currentBun.image_mobile}
-         />
-      </div>
-    }
+      {currentBun &&
+        <div className='pr-4 pl-8 mb-6'>
+          <ConstructorElement
+             type="bottom"
+             isLocked={true}
+             text={currentBun.name + " (низ)"}
+             price={currentBun.price}
+             thumbnail={currentBun.image_mobile}
+           />
+        </div>
+      }
     
       <div className={`${styles.make_order} ml-8 mb-4`}>
-        <span className="text text_type_digits-medium">{getCostOrder()}</span>
+        {totalPrice && <span className="text text_type_digits-medium">{totalPrice}</span>}
         <div className={`${styles.currency} ml-2 mr-10`}>
           <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="button" type="primary" size="large" onClick={doOrder}>Оформить заказ</Button>
       </div>
 
-    {showOrder && 
-      (<Modal onClose={closeModalPopup}>
-        <OrderDetails number={orderNum} />
-      </Modal>)
-    }
-
+      {showOrder && 
+        <Modal onClose={closeModalPopup}>
+          <OrderDetails number={returnedOrderNumber} />
+        </Modal>
+      }
     </section>
   )
-};
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerConstructor;

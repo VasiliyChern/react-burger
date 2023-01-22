@@ -7,7 +7,7 @@ const OrderDetails = (props) => {
   return (
     <>
       <p className={`${styles.number} text text_type_digits-large pb-8`}>
-        {props.number}
+        {props.number > 0 && props.number}
       </p>
       <p className="text text_type_main-medium">
         идентификатор заказа
@@ -24,7 +24,7 @@ const OrderDetails = (props) => {
 }
 
 OrderDetails.propTypes = {
-  number: PropTypes.string.isRequired
+  number: PropTypes.number.isRequired
 }
 
 export default OrderDetails;
