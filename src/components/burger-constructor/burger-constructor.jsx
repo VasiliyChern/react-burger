@@ -1,95 +1,100 @@
-import React, { useState, useContext, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
-import {DragIcon, ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
-import { SelectionContext, OrderNumberContext } from '../../services/burger-context';
-import { postApiBurgerOrder } from '../../services/utils/data';
+import IngredientConstructor from "../ingredient-constructor/ingredient-constructor";
+import { addIngredientToSelection } from '../../services/actions/selection';
+import { orderBurger, ORDER_RESET } from '../../services/actions/order';
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
-  const {selectionContext} = useContext(SelectionContext);
-  const {orderNum, setOrderNum} = useContext(OrderNumberContext);
+  const dispatch = useDispatch();
+  const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
+  const {order, orderRequest} = useSelector(state => state.order);
 
   const [showOrder, setShowOrder] = useState(false);
 
-  const currentBun = useMemo(
-    () => 
-      selectionContext !== '' && selectionContext.find(elem => elem.value.type === "bun").value
-  , [selectionContext]);
-  
-  const filling = useMemo(
-    () =>
-      selectionContext !== '' && selectionContext.filter(elem => elem.value.type !== "bun")
-  , [selectionContext]);
-
   const totalPrice = useMemo(
-    ()=> {
+    () => {
     let total = 0;
-    if (currentBun !== '') {
-      total += currentBun.price * 2;
+    if (burgerBun) {
+      total += burgerBun.price * 2;
     }
-    if (filling !== '') {
-      for (var i = 0; i < filling.length; i++) {
-        total += filling[i].value.price;
-      }
+    for (var i = 0; i < filling.length; i++) {
+      total += filling[i].price;
     }
     return total;
-  }, [currentBun, filling]);
+  }, [burgerBun, filling]);
 
   const doOrder = () => {
-    let orderIds = selectionContext.map( item => item.value._id);
+    if (!burgerBun || orderRequest) {
+      return;
+    }
+    else if (burgerBun !== null && filling.length > 0) {
+      let orderIds = [burgerBun._id, ...filling.map(item => item._id)];
 
-    postApiBurgerOrder(orderIds)
-      .then(data => setOrderNum(data))
-      .catch(error => console.error(error));
-
-    setShowOrder(true);
+      dispatch(orderBurger(orderIds));
+      setShowOrder(true);
+    }
   };
 
   const closeModalPopup = () => {
+    dispatch({ type: ORDER_RESET });
     setShowOrder(false);
-  }
+  };
 
   const returnedOrderNumber = useMemo( () => {
-    return orderNum ? orderNum.order.number : 0
-    }, [orderNum]
+    return order ? order.order.number : 0
+    }, [order]
   );
 
+  const [, dropRefTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(addIngredientToSelection(item));
+    }
+  });
+  
   return (
-    <section className={`${styles.container_layers} mt-25 ml-4`}>
-      {currentBun &&
-        <div className='pr-4 pl-8'>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={currentBun.name + " (верх)"}
-            price={currentBun.price}
-            thumbnail={currentBun.image_mobile}
-          />
-        </div>
+    <section className={`${styles.container_layers} mt-25 ml-4`} ref={dropRefTarget} >
+      {!burgerBun ?
+        <div className={styles.empty_default_area}>
+          <p className="text text_type_main-default">Переместите в эту область выбранную булочку.</p>
+          <p className="text text_type_main-default">А затем начинки и соусы.</p>
+        </div> 
+        : null
       }
-    
-      <div className={styles.main_layers}>
-        {filling && filling.map( (item) => (
-              <div key={item.id} className={`${styles.main_layer} pr-2`}>
-                <div className='mr-2'>
-                  <DragIcon type="primary" />
-                </div>
-                <ConstructorElement text={item.value.name} price={item.value.price} thumbnail={item.value.image_mobile} />
-              </div>
-          ))}
-      </div>
-    
-      {currentBun &&
-        <div className='pr-4 pl-8 mb-6'>
-          <ConstructorElement
-             type="bottom"
-             isLocked={true}
-             text={currentBun.name + " (низ)"}
-             price={currentBun.price}
-             thumbnail={currentBun.image_mobile}
-           />
-        </div>
+
+      {burgerBun &&
+        <>
+          <div className='pr-4 pl-8'>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={burgerBun.name + " (верх)"}
+              price={burgerBun.price}
+              thumbnail={burgerBun.image_mobile}
+            />
+          </div>
+       
+          <div className={styles.main_layers}>
+            {filling.map( (fillingItem, index) => (
+              <IngredientConstructor key={fillingItem.id} index={index} item={fillingItem} />
+              ))}
+          </div>
+       
+          <div className='pr-4 pl-8 mb-6'>
+            <ConstructorElement
+               type="bottom"
+               isLocked={true}
+               text={burgerBun.name + " (низ)"}
+               price={burgerBun.price}
+               thumbnail={burgerBun.image_mobile}
+             />
+          </div>
+        </>
       }
     
       <div className={`${styles.make_order} ml-8 mb-4`}>
@@ -97,9 +102,9 @@ const BurgerConstructor = () => {
         <div className={`${styles.currency} ml-2 mr-10`}>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={doOrder}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" disabled={!burgerBun} onClick={doOrder}>Оформить заказ</Button>
       </div>
-
+   
       {showOrder && 
         <Modal onClose={closeModalPopup}>
           <OrderDetails number={returnedOrderNumber} />

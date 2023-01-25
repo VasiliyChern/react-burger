@@ -13,8 +13,3 @@ export const ingredientType = PropTypes.shape({
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired
 });
-
-export const kitType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  value: ingredientType.isRequired
-});
