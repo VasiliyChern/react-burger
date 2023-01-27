@@ -1,0 +1,16 @@
+.section {
+  margin: 0; 
+  padding: 0;
+  padding-bottom: 30px;
+}
+
+.section_tab {
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 24px;
+  row-gap: 32px;
+  flex-wrap: wrap;
+  padding: 0;
+}

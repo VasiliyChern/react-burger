@@ -1,98 +1,117 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
-import {DragIcon, ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
-import { ingredientType } from '../utils/types';
+import IngredientConstructor from "../ingredient-constructor/ingredient-constructor";
+import { addIngredientToSelection } from '../../services/actions/selection';
+import { orderBurger, ORDER_RESET } from '../../services/actions/order';
+import { useDrop } from "react-dnd";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
+  const {order, orderRequest} = useSelector(state => state.order);
+
   const [showOrder, setShowOrder] = useState(false);
 
-  const orderNum = "034536";
-
-  const currentBun = props.data.find(elem => elem.type === "bun");
-
-  const getOrderItems = props.data.filter(elem => elem.type !== "bun");
-
-  const getCostOrder = () => {
+  const totalPrice = useMemo(
+    () => {
     let total = 0;
-    if (props.data !== undefined && props.data.length > 0 && props.data[0] !== null) {
-      for (var i = 0; i < props.data.length; i++) {
-        if (props.data[i].type !== "bun") {
-          total += props.data[i].price;
-        }
-      }
-      total += currentBun.price; // цена булки сверху и снизу
+    if (burgerBun) {
+      total += burgerBun.price * 2;
+    }
+    for (var i = 0; i < filling.length; i++) {
+      total += filling[i].price;
     }
     return total;
-  };
+  }, [burgerBun, filling]);
 
   const doOrder = () => {
-    setShowOrder(true);
-  }
+    if (!burgerBun || orderRequest) {
+      return;
+    }
+    else if (burgerBun !== null && filling.length > 0) {
+      let orderIds = [burgerBun._id, ...filling.map(item => item._id)];
+
+      dispatch(orderBurger(orderIds));
+      setShowOrder(true);
+    }
+  };
 
   const closeModalPopup = () => {
+    dispatch({ type: ORDER_RESET });
     setShowOrder(false);
-  }
+  };
+
+  const returnedOrderNumber = useMemo( () => {
+    return order ? order.order.number : 0
+    }, [order]
+  );
+
+  const [, dropRefTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(addIngredientToSelection(item));
+    }
+  });
   
   return (
-    <section className={`${styles.container_layers} mt-25 ml-4`}>
-      {currentBun &&
-        <div className='pr-4 pl-8'>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={currentBun.name + " (верх)"}
-            price={currentBun.price}
-            thumbnail={currentBun.image_mobile}
-          />
-        </div>
+    <section className={`${styles.container_layers} mt-25 ml-4`} ref={dropRefTarget} >
+      {!burgerBun ?
+        <div className={styles.empty_default_area}>
+          <p className="text text_type_main-default">Переместите в эту область выбранную булочку.</p>
+          <p className="text text_type_main-default">А затем начинки и соусы.</p>
+        </div> 
+        : null
+      }
+
+      {burgerBun &&
+        <>
+          <div className='pr-4 pl-8'>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={burgerBun.name + " (верх)"}
+              price={burgerBun.price}
+              thumbnail={burgerBun.image_mobile}
+            />
+          </div>
+       
+          <div className={styles.main_layers}>
+            {filling.map( (fillingItem, index) => (
+              <IngredientConstructor key={fillingItem.id} index={index} item={fillingItem} />
+              ))}
+          </div>
+       
+          <div className='pr-4 pl-8 mb-6'>
+            <ConstructorElement
+               type="bottom"
+               isLocked={true}
+               text={burgerBun.name + " (низ)"}
+               price={burgerBun.price}
+               thumbnail={burgerBun.image_mobile}
+             />
+          </div>
+        </>
       }
     
-      <div className={styles.main_layers}>
-        {getOrderItems.map( (item) => (
-              <div key={item._id} className={`${styles.main_layer} pr-2`}>
-                <div className='mr-2'>
-                  <DragIcon type="primary" />
-                </div>
-                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image_mobile} />
-              </div>
-          ))}
-      </div>
-    
-    {currentBun &&
-      <div className='pr-4 pl-8 mb-6'>
-        <ConstructorElement
-           type="bottom"
-           isLocked={true}
-           text={currentBun.name + " (низ)"}
-           price={currentBun.price}
-           thumbnail={currentBun.image_mobile}
-         />
-      </div>
-    }
-    
       <div className={`${styles.make_order} ml-8 mb-4`}>
-        <span className="text text_type_digits-medium">{getCostOrder()}</span>
+        {totalPrice && <span className="text text_type_digits-medium">{totalPrice}</span>}
         <div className={`${styles.currency} ml-2 mr-10`}>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={doOrder}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" disabled={!burgerBun} onClick={doOrder}>Оформить заказ</Button>
       </div>
-
-    {showOrder && 
-      (<Modal onClose={closeModalPopup}>
-        <OrderDetails number={orderNum} />
-      </Modal>)
-    }
-
+   
+      {showOrder && 
+        <Modal onClose={closeModalPopup}>
+          <OrderDetails number={returnedOrderNumber} />
+        </Modal>
+      }
     </section>
   )
-};
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerConstructor;
