@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback } from 'react';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom';
@@ -15,13 +14,13 @@ export const LoginPage = () => {
 
   const { authenticationUserRequest, authenticationUserFailed } = useSelector(state => state.user);
 
-  const handleLoginUser = useCallback( e => {
+  const handleLoginUser = (e) => {
     e.preventDefault();
     if (authenticationUserRequest) {
       return;
     }
     dispatch(authenticationUser(values));
-  }, [dispatch, values, authenticationUserRequest]);
+  };
 
   return (
     <section className={styles.section}>

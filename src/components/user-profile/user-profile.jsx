@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './user-profile.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -9,11 +9,17 @@ export const UserProfile = () => {
   const dispatch = useDispatch();
   const { userInfo, updateInfoUserRequest } = useSelector(state => state.user);
 
-  const { values, handleChange, setValues } = useForm({
-    email: `${userInfo ? userInfo.email : ''}`,
-    password: '',
-    name: `${userInfo ? userInfo.name : ''}`
-  });
+  const valuesFromUserInfo = useMemo(
+    () => {
+      return {
+        email: `${userInfo ? userInfo.email : ''}`,
+        password: '',
+        name: `${userInfo ? userInfo.name : ''}`
+      }
+    }, [userInfo]
+  );
+
+  const { values, handleChange, setValues } = useForm(valuesFromUserInfo);
 
   const isEqual = useMemo(
     () => {
@@ -30,7 +36,7 @@ export const UserProfile = () => {
     , [userInfo, values]
   );
 
-  const handleUpdateInfoUser = useCallback( e => {
+  const handleUpdateInfoUser = (e) => {
     e.preventDefault();
     if (updateInfoUserRequest) {
       return;
@@ -46,26 +52,18 @@ export const UserProfile = () => {
       toValues.password = values.password;
     }
     dispatch(updateInfoUser(toValues));
-  }, [dispatch, values, updateInfoUserRequest]);
+  };
 
   useEffect(() => {
     dispatch(renewalInfoUser());
   }, [dispatch])
 
   useEffect(() => {
-    setValues({
-      email: `${userInfo ? userInfo.email : ''}`,
-      password: '',
-      name: `${userInfo ? userInfo.name : ''}`
-    });
-  }, [userInfo, setValues])
+    setValues(valuesFromUserInfo);
+  }, [valuesFromUserInfo, setValues])
 
   const doCancel = () => {
-    setValues({
-      email: `${userInfo ? userInfo.email : ''}`,
-      password: '',
-      name: `${userInfo ? userInfo.name : ''}`
-    });
+    setValues(valuesFromUserInfo);
   };
 
   return (

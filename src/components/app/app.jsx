@@ -6,6 +6,8 @@ import AppHeader from '../app-header/app-header';
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
+import { UserProfile } from '../user-profile/user-profile';
+import { HistoryOrdersProfile } from '../history-orders-profile/history-orders-profile';
 import { getIngredients } from '../../services/actions/offer';
 import {
   LoginPage,
@@ -13,7 +15,7 @@ import {
   ResetPasswordPage,
   RegisterPage,
   ProfilePage,
-  ProfileHistoryOrdersPage,
+  FeedPage,
   BurgerMainPage,
   NotFound404Page
 } from "../../pages";
@@ -56,14 +58,19 @@ const App = () => {
             <RegisterPage />
           </ProtectedRouteElement>
         } />
-        <Route exact path="/profile" element={
+
+        <Route path="/profile" element={
           <ProtectedRouteElement successUsers={true}>
             <ProfilePage />
           </ProtectedRouteElement>
-        } />
-        <Route exact path="/profile/orders" element={
+        }>
+          <Route path="" element={<UserProfile />} />
+          <Route path="orders" element={<HistoryOrdersProfile />} />
+        </Route>
+
+        <Route exact path="/feed" element={
           <ProtectedRouteElement successUsers={true}>
-            <ProfileHistoryOrdersPage />
+            <FeedPage />
           </ProtectedRouteElement>
         } />
         <Route exact path={`/ingredients/:id`} element={

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,10 +16,10 @@ export const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const { passwordInfo, passwordNewInfo } = useSelector(state => state.user);
 
-  const handleSaveNewPassword = useCallback( e => {
+  const handleSaveNewPassword = (e) => {
     e.preventDefault();
     dispatch(createNewPassword(values));
-  }, [dispatch, values]);
+  };
 
   useEffect(() => {
     if (passwordNewInfo || passwordInfo === null) {

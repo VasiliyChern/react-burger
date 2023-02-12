@@ -11,8 +11,8 @@ const AppHeader = () => {
       if (locationPath.pathname === '/' || locationPath.pathname.toLowerCase().indexOf('/ingredients') === 0) {
         return 'burger';
       }
-      else if (locationPath.pathname.toLowerCase().indexOf('/profile/order') === 0) {
-        return 'history';
+      else if (locationPath.pathname.toLowerCase().indexOf('/feed') === 0) {
+        return 'feed';
       }
       else if (locationPath.pathname.toLowerCase().indexOf('/profile') === 0) {
         return 'person';
@@ -35,9 +35,9 @@ const AppHeader = () => {
           </span>
         </NavLink>
 
-        <NavLink to='/profile/orders' className={`${styles.navigationlink} pl-5 pr-5 ml-2`}>
-          <ListIcon type={activeNav === 'history' ? 'primary' : 'secondary'} />
-          <span className={`text text_type_main-default ${activeNav === 'history' ? styles.active : 'text_color_inactive'} ml-2`}>
+        <NavLink to='/feed' className={`${styles.navigationlink} pl-5 pr-5 ml-2`}>
+          <ListIcon type={activeNav === 'feed' ? 'primary' : 'secondary'} />
+          <span className={`text text_type_main-default ${activeNav === 'feed' ? styles.active : 'text_color_inactive'} ml-2`}>
             Лента заказов
           </span>
         </NavLink>

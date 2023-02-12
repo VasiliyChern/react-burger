@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback } from 'react';
 import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,14 +16,13 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const { registrationUserRequest } = useSelector(state => state.user);
 
-  const handleRegisterUser = useCallback( e => {
+  const handleRegisterUser = (e) => {
     e.preventDefault();
     if (registrationUserRequest) {
       return;
     }
-    dispatch(registrationUser(values));
-    navigate('/login');
-  }, [dispatch, navigate, values, registrationUserRequest]);
+    dispatch(registrationUser(values, {onSuccess: () => navigate('/login')}));
+  };
 
   return (
     <section className={styles.section}>

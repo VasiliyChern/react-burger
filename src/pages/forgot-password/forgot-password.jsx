@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './forgot-password.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,10 +15,10 @@ export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const { passwordInfo } = useSelector(state => state.user);
 
-  const handleResetPassword = useCallback( e => {
+  const handleResetPassword = (e) => {
     e.preventDefault();
     dispatch(resetPassword(values.email));
-  }, [dispatch, values]);
+  };
 
   useEffect(() => {
     if (passwordInfo) {
