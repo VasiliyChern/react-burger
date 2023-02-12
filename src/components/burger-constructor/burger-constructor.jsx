@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -7,10 +8,12 @@ import OrderDetails from "../order-details/order-details";
 import IngredientConstructor from "../ingredient-constructor/ingredient-constructor";
 import { addIngredientToSelection } from '../../services/actions/selection';
 import { orderBurger, ORDER_RESET } from '../../services/actions/order';
+import { haveUserAccess } from '../../services/actions/user';
 import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
   const {order, orderRequest} = useSelector(state => state.order);
 
@@ -31,6 +34,9 @@ const BurgerConstructor = () => {
   const doOrder = () => {
     if (!burgerBun || orderRequest) {
       return;
+    }
+    else if (!haveUserAccess()) {
+      navigate('/login');
     }
     else if (burgerBun !== null && filling.length > 0) {
       let orderIds = [burgerBun._id, ...filling.map(item => item._id)];

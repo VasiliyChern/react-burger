@@ -36,7 +36,10 @@ export const orderReducer = (state = initialState, action) => {
       };
     }
     case ORDER_RESET: {
-      return state;
+      return {
+        ...state,
+        order: null
+      };
     }
     default: {
       return state;

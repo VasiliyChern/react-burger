@@ -1,4 +1,5 @@
 import { postApiBurgerOrder } from '../utils/data';
+import { SELECTION_INGREDIENT_RESET } from './selection';
 
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';
@@ -11,12 +12,17 @@ export function orderBurger(details) {
       type: ORDER_REQUEST
     })
     postApiBurgerOrder(details)
-      .then(resulst => {
-        if (resulst && resulst.success) {
+      .then(result => {
+        if (result && result.success) {
           dispatch({
             type: ORDER_SUCCESS,
-            payload: resulst
+            payload: result
           })
+          .then(
+            dispatch({
+              type: SELECTION_INGREDIENT_RESET
+            }) 
+          )
         } else {
           dispatch({
             type: ORDER_ERROR

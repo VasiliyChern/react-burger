@@ -1,0 +1,20 @@
+.section {
+  height: 80%;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column; 
+} 
+
+.header {
+  margin: 24px auto;
+  padding: 0;
+}
+
+.footer {
+  margin: 20px auto;
+}
+
+.link {
+  color: #4C4CFF;
+  cursor: pointer;
+}

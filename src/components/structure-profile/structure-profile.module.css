@@ -1,0 +1,22 @@
+.container {
+  margin: 4px auto;
+}
+
+.profilelink {
+  text-decoration: none !important;
+}
+
+.header {
+  margin: 24px auto;
+  padding: 0;
+}
+
+.annotation {
+  width: 330px;
+  overflow-wrap: normal;
+  color: #646483;
+}
+
+.active {
+  color: white;
+} 

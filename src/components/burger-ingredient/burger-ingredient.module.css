@@ -8,6 +8,7 @@
   width: 272px;
   height: 208px;
   position: relative;
+  text-decoration: none !important;
 }
 
 .image {
@@ -19,9 +20,11 @@
 }
 
 .price {
-  display: flex; 
+  display: flex;
+  color: #F2F2F3;
 }
 
 .name {
   text-align: center;
+  color: #F2F2F3;
 }
