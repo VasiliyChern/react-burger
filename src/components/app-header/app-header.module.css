@@ -23,7 +23,9 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  box-sizing: border-box;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .logo {
@@ -31,4 +33,8 @@
   height: 40px;
   width: 289px;
   top: 8px;
+}
+
+.active {
+  color: white;
 }

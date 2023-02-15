@@ -19,7 +19,7 @@ const TabIngredients = React.forwardRef((props, ref) => {
           const itemCount = 
             (burgerBunId === item._id) ? 2 : filling.filter(elem => elem._id === item._id).length;
           return ( 
-            <BurgerIngredient key={item._id} ingredient={item} count={itemCount} onClick={props.onClick} />
+            <BurgerIngredient key={item._id} ingredient={item} count={itemCount} />
           ) } ) }
       </div>
     </section>
@@ -29,7 +29,6 @@ const TabIngredients = React.forwardRef((props, ref) => {
 TabIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientType).isRequired,
   title: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired
 }; 
 
