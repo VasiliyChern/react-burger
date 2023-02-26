@@ -2,7 +2,7 @@ import {
   INGREDIENT_CHARACTERISTIC_SET,
   INGREDIENT_CHARACTERISTIC_RESET
 } from '../actions/ingredient-characteristic';
-import { TIngredientType } from '../utils/types';
+import { TIngredientType } from '../types/types-burger';
 
 interface IIngredientCharacteristic {
   ingredient: TIngredientType | null;

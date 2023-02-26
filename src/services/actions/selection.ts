@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import { TIngredientType } from '../utils/types';
+import { TIngredientType } from '../types/types-burger';
 
 export const SELECTION_INGREDIENT_ADD = 'SELECTION_INGREDIENT_ADD';
 export const SELECTION_INGREDIENT_DELETE = 'SELECTION_INGREDIENT_DELETE';

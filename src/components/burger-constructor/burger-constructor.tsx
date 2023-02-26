@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useState, useMemo, FunctionComponent } from 'react';
+import { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
@@ -10,9 +10,9 @@ import { addIngredientToSelection } from '../../services/actions/selection';
 import { orderBurger, ORDER_RESET } from '../../services/actions/order';
 import { haveUserAccess } from '../../services/actions/user';
 import { useDrop } from "react-dnd";
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientReducerType } from '../../services/types/types-burger';
 
-const BurgerConstructor: FunctionComponent = () => {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
@@ -53,13 +53,13 @@ const BurgerConstructor: FunctionComponent = () => {
   };
 
   const returnedOrderNumber = useMemo( () => {
-    return order ? order : 0
+    return order ?? 0
     }, [order]
   );
 
   const [, dropRefTarget] = useDrop({
     accept: 'ingredient',
-    drop(item: TIngredientType) {
+    drop(item: TIngredientReducerType) {
       dispatch(addIngredientToSelection(item));
     }
   });

@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import styles from './order-details.module.css';
 import doneImage from '../../images/done.jpg';
 
@@ -6,7 +5,7 @@ type TOrderDetailsProps = {
   number: number;
 }
 
-const OrderDetails: FunctionComponent<TOrderDetailsProps> = (props: TOrderDetailsProps) => {
+const OrderDetails = (props: TOrderDetailsProps) => {
   return (
     <>
       <p className={`${styles.number} text text_type_digits-large pb-8`}>

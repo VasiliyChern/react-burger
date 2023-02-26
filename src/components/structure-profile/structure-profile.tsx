@@ -1,10 +1,10 @@
-import { useMemo, FunctionComponent, MouseEvent } from 'react';
+import { useMemo, MouseEvent } from 'react';
 import { useDispatch } from '../../hooks/hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './structure-profile.module.css';
 import { logoutUser } from '../../services/actions/user';
 
-export const StructureProfile: FunctionComponent = () => {
+export const StructureProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const locationPath = useLocation();

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useSelector } from '../../hooks/hooks';
 import { Navigate, useLocation } from 'react-router-dom';
 import { haveUserAccess } from '../../services/actions/user';
@@ -8,10 +8,10 @@ interface IProtectedRouteElementProps {
   children: ReactElement
 };
 
-const ProtectedRouteElement: FunctionComponent<IProtectedRouteElementProps> = ({
+const ProtectedRouteElement = ({
   successUsers,
   children
-  }) => {
+  }: IProtectedRouteElementProps) => {
 
   const location = useLocation();
   const successUserLogged = haveUserAccess();

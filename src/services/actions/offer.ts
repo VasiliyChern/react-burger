@@ -1,5 +1,5 @@
 import { getApiBurgerIngredients } from '../utils/data';
-import { TDispatch } from '../utils/types';
+import { TDispatch } from '../types/types-store';
 
 export const GET_INGREDIENTS_API_REQUEST = 'GET_INGREDIENTS_API_REQUEST';
 export const GET_INGREDIENTS_API_SUCCESS = 'GET_INGREDIENTS_API_SUCCESS';

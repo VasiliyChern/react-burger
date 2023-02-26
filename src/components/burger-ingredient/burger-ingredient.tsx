@@ -1,7 +1,6 @@
-import { FunctionComponent } from 'react';
 import styles from './burger-ingredient.module.css';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientType } from '../../services/types/types-burger';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
@@ -10,7 +9,7 @@ type TBurgerIngredientProps = {
   readonly count: number
 }
 
-const BurgerIngredient: FunctionComponent<TBurgerIngredientProps> = ( props: TBurgerIngredientProps) => {
+const BurgerIngredient = ( props: TBurgerIngredientProps) => {
   const location = useLocation();
 
   const [{ opacity }, dragRef] = useDrag(() => ({

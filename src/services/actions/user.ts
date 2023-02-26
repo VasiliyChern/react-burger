@@ -9,13 +9,14 @@ import {
   patchApiUpdateInfoUser
 } from '../utils/data';
 import { setCookie, getCookie, deleteCookie } from '../utils/cookie';
-import { TDispatch,
-  IAuthenticationUserParams,
+import {
   ICreateNewPasswordUserParams,
   IRegistrationInfoUserParams,
+  IAuthenticationUserParams,
   IUpdateInfoUserParams,
   TRedirect  
-} from '../utils/types';
+} from '../types/types-api';
+import { TDispatch } from '../types/types-store';
 
 export const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
 export const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
@@ -294,7 +295,7 @@ export function updateInfoUser(infoUser: IUpdateInfoUserParams) {
   }
 }
 
-export function haveUserAccess() {
+export function haveUserAccess(): boolean {
   let accessCookie = getCookie('accessToken');
   return accessCookie !== null && accessCookie !== undefined && accessCookie !== '';
 }

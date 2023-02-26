@@ -1,18 +1,18 @@
 import { useDispatch } from '../../hooks/hooks';
-import { useRef, FunctionComponent } from 'react';
+import { useRef } from 'react';
 import styles from './ingredient-constructor.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import { SELECTION_INGREDIENT_REORDER, SELECTION_INGREDIENT_DELETE } from '../../services/actions/selection';
 import { useDrag, useDrop } from "react-dnd";
 import type { XYCoord } from 'dnd-core'
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientReducerType } from '../../services/types/types-burger';
 
 type TIngredientConstructorProps = {
-  item: TIngredientType;
+  item: TIngredientReducerType;
   index: number;
 } 
 
-const IngredientConstructor: FunctionComponent<TIngredientConstructorProps> = ({ item, index }: TIngredientConstructorProps) => {
+const IngredientConstructor = ({ item, index }: TIngredientConstructorProps) => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -70,10 +70,8 @@ const IngredientConstructor: FunctionComponent<TIngredientConstructorProps> = ({
  
   if (item.type !== 'bun') drag(drop(ref));
 
-  const preventDefault = (e: { preventDefault: () => void; }) => e.preventDefault();
-
   return (
-    <div ref={ref} className={`${styles.main_layer} pr-2`} style={{ opacity }} data-handler-id={handlerId} onDrop={preventDefault}>
+    <div ref={ref} className={`${styles.main_layer} pr-2`} style={{ opacity }} data-handler-id={handlerId}>
       <div className='mr-2'>
         <DragIcon type="primary" />
       </div>

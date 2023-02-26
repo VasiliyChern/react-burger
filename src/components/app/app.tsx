@@ -1,4 +1,4 @@
-import { useEffect, FunctionComponent } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "../../hooks/hooks";
 import { Routes, Route, useLocation, useNavigate  } from 'react-router-dom';
 import styles from './app.module.css';
@@ -20,7 +20,7 @@ import {
   NotFound404Page
 } from "../../pages";
 
-const App: FunctionComponent = () => {
+const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();

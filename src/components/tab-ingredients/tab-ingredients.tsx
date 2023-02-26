@@ -2,7 +2,7 @@ import { useSelector } from '../../hooks/hooks';
 import React, { LegacyRef } from 'react';
 import styles from './tab-ingredients.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient'; 
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientType, TIngredientReducerType } from '../../services/types/types-burger';
 
 type TTabIngredientsProps = {
   ingredients: Array<TIngredientType>;
@@ -12,7 +12,7 @@ type TTabIngredientsProps = {
 
 const TabIngredients = React.forwardRef<HTMLHeadingElement, TTabIngredientsProps>((props: TTabIngredientsProps, ref: LegacyRef<HTMLDivElement> | undefined) => {
   const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
-  const burgerBunId = burgerBun !== null ? burgerBun.id : "";
+  const burgerBunId = burgerBun !== null ? burgerBun._id : "";
   const ingredients = props.ingredients.filter(elem => elem);
 
   return (
@@ -22,7 +22,7 @@ const TabIngredients = React.forwardRef<HTMLHeadingElement, TTabIngredientsProps
       <div ref={ref} className={`${styles.section_tab} ml-4`}>
         {ingredients.map( (item) => {
           const itemCount = 
-            (burgerBunId === item.id) ? 2 : filling.filter((elem: TIngredientType) => elem._id === item._id).length;
+            (burgerBunId === item._id) ? 2 : filling.filter((elem: TIngredientReducerType) => elem._id === item._id).length;
           return ( 
             <BurgerIngredient key={item._id} ingredient={item} count={itemCount} />
           ) } ) }

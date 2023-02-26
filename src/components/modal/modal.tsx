@@ -1,4 +1,4 @@
-import { useEffect, FunctionComponent, ReactElement } from "react";
+import { useEffect, ReactElement } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -10,7 +10,7 @@ interface IModalProps {
   onClose: () => void;
 }
 
-const Modal: FunctionComponent<IModalProps> = (props) => {
+const Modal = (props: IModalProps) => {
 
   useEffect(() => {
 

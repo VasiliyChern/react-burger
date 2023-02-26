@@ -1,12 +1,12 @@
 import { useSelector } from '../../hooks/hooks';
-import { useState, useEffect, useMemo, FunctionComponent } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components' 
 import { useInView } from 'react-intersection-observer';
 import TabIngredients from '../tab-ingredients/tab-ingredients'; 
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientType } from '../../services/types/types-burger';
 
-const BurgerIngredients: FunctionComponent = () => {
+const BurgerIngredients = () => {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(state => state.offerIngredients);
 
   const [current, setCurrent] = useState('bun');

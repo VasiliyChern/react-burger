@@ -1,6 +1,6 @@
 import { postApiBurgerOrder } from '../utils/data';
 import { SELECTION_INGREDIENT_RESET } from './selection';
-import { TDispatch } from '../utils/types';
+import { TDispatch } from '../types/types-store';
 
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';

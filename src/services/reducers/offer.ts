@@ -3,7 +3,7 @@ import {
   GET_INGREDIENTS_API_SUCCESS,
   GET_INGREDIENTS_API_ERROR
 } from '../actions/offer';
-import { TIngredientType } from '../utils/types';
+import { TIngredientType } from '../types/types-burger';
 
 interface IOffer {
   ingredientsRequest: boolean;

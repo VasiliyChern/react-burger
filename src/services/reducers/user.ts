@@ -1,4 +1,4 @@
-import { IPersonInfoUser } from '../utils/types'; 
+import { IPersonInfoUser } from '../types/types-api'; 
 import {
   PASSWORD_RESET_REQUEST,
   PASSWORD_RESET_SUCCESS,

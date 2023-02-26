@@ -1,7 +1,6 @@
-import { FunctionComponent } from "react";
 import styles from './feed.module.css';
 
-export const FeedPage: FunctionComponent = () => {
+export const FeedPage = () => {
 
   return (
     <section className={styles.section}>

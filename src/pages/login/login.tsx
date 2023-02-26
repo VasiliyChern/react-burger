@@ -1,4 +1,4 @@
-import { FunctionComponent, FormEvent } from "react";
+import { FormEvent } from "react";
 import { useDispatch, useSelector } from '../../hooks/hooks';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { authenticationUser } from '../../services/actions/user';
 
-export const LoginPage: FunctionComponent = () => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     email: '',

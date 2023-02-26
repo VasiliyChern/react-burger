@@ -1,11 +1,10 @@
-import { FunctionComponent } from "react";
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'; 
 import styles from './burger-main.module.css';
 
-export const BurgerMainPage: FunctionComponent = () => {
+export const BurgerMainPage = () => {
   return (
     <main className={styles.content}>
       <DndProvider backend={HTML5Backend} >

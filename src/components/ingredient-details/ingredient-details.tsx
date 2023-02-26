@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from '../../hooks/hooks';
-import { useMemo, FunctionComponent } from 'react';
+import { useMemo } from 'react';
 import styles from './ingredient-details.module.css';
-import { TIngredientType } from '../../services/utils/types';
+import { TIngredientType } from '../../services/types/types-burger';
 
-const IngredientDetails: FunctionComponent = () => {
+const IngredientDetails = () => {
   const { ingredients } = useSelector(state => state.offerIngredients);
   const { id } = useParams();
   const ingredient = useMemo(

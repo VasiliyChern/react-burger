@@ -4,11 +4,11 @@ import {
   SELECTION_INGREDIENT_REORDER,
   SELECTION_INGREDIENT_RESET
 } from '../actions/selection';
-import { TIngredientType } from '../utils/types';
+import { TIngredientReducerType } from '../types/types-burger';
 
 interface ISelectionIngredients {
-  burgerBun: TIngredientType | null;
-  filling: Array<TIngredientType>;
+  burgerBun: TIngredientReducerType | null;
+  filling: Array<TIngredientReducerType>;
 } 
 
 const initialState: ISelectionIngredients = {

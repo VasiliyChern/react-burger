@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useEffect, FunctionComponent, FormEvent } from 'react';
+import { useEffect, FormEvent } from 'react';
 import styles from './forgot-password.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { resetPassword } from '../../services/actions/user';
 
-export const ForgotPasswordPage: FunctionComponent = () => {
+export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     email: ''

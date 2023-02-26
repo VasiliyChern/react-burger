@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useEffect, FunctionComponent, FormEvent } from 'react';
+import { useEffect, FormEvent } from 'react';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { createNewPassword } from '../../services/actions/user';
 
-export const ResetPasswordPage: FunctionComponent = () => {
+export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     password: '', 

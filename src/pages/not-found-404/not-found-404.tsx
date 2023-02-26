@@ -1,8 +1,7 @@
-import { FunctionComponent } from "react";
 import styles from './not-found-404.module.css';
 import { Link } from 'react-router-dom';
 
-export const NotFound404Page: FunctionComponent = () => {
+export const NotFound404Page = () => {
 
   return (
     <section className={styles.section}>

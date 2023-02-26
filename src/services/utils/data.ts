@@ -3,24 +3,32 @@ import {
   ICreateNewPasswordUserParams,
   IRegistrationInfoUserParams,
   IAuthenticationUserParams,
-  IUpdateInfoUserParams
-} from './types';
+  IUpdateInfoUserParams,
+  TResponse,
+  IResponseBody,
+  IGetBurgerIngredientsResponse,
+  IPostOrderResponse,
+  IUserResponse,
+  IPersonUserResponse,
+  ITokenResponse
+} from '../types/types-api';
 
-const apiUrl =  'https://norma.nomoreparties.space/api';
+const API_URL =  'https://norma.nomoreparties.space/api';
 
-const validateResponse = (result: Response) => {
+function validateResponse<T>(result: TResponse<T>): Promise<T> | Promise<never> { 
   return (result.ok) 
     ? result.json() 
     : result.json().then((error) => Promise.reject(error));
 };
 
-function request(url: string, options: RequestInit) {
-    return fetch(url, options).then(validateResponse)
+function request<T>(url: string, options: RequestInit): Promise<T> {
+  return fetch(url, options).then(validateResponse)
 };
 
-function secondRequstCaseOfExpired(url: string, options: RequestInit) {
-  return request(url, options)
-  .catch (error => {
+function secondRequstCaseOfExpired<T>(url: string, options: RequestInit): Promise<T> {
+  return fetch(url, options)
+  .then(validateResponse)
+  .catch(error => {
     if (error.message === 'jwt expired') {
       return postApiRenewalTokenUser()
         .then(result => {
@@ -37,15 +45,15 @@ function secondRequstCaseOfExpired(url: string, options: RequestInit) {
             const reqHeaders = new Headers(options.headers);
             reqHeaders.set('Authorization', 'Bearer ' + authToken);
             options.headers = reqHeaders;
-            return request(url, options);
+            return request<T>(url, options);
           }
         })
     }
   })
 };
 
-export const getApiBurgerIngredients = () => {
-  return request(`${apiUrl}/ingredients`, {
+export const getApiBurgerIngredients = (): Promise<IGetBurgerIngredientsResponse> => {
+  return request<IGetBurgerIngredientsResponse>(`${API_URL}/ingredients`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json'
@@ -59,8 +67,8 @@ export const getApiBurgerIngredients = () => {
     })
 };
 
-export const postApiBurgerOrder = (itemsId: Array<string>) => {
-  return secondRequstCaseOfExpired(`${apiUrl}/orders`, {
+export const postApiBurgerOrder = (itemsId: Array<string>): Promise<IPostOrderResponse> => {
+  return secondRequstCaseOfExpired<IPostOrderResponse>(`${API_URL}/orders`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -71,8 +79,8 @@ export const postApiBurgerOrder = (itemsId: Array<string>) => {
     })
 };
 
-export const postApiPasswordReset = (infoEmail: string) => {
-  return request(`${apiUrl}/password-reset`, {
+export const postApiPasswordReset = (infoEmail: string): Promise<IUserResponse> => {
+  return request<IUserResponse>(`${API_URL}/password-reset`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -82,8 +90,8 @@ export const postApiPasswordReset = (infoEmail: string) => {
     })
 };
 
-export const postApiPasswordCreateNew = (infoPassword: ICreateNewPasswordUserParams) => {
-  return request(`${apiUrl}/password-reset/reset`, {
+export const postApiPasswordCreateNew = (infoPassword: ICreateNewPasswordUserParams): Promise<IUserResponse> => {
+  return request<IUserResponse>(`${API_URL}/password-reset/reset`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -93,8 +101,8 @@ export const postApiPasswordCreateNew = (infoPassword: ICreateNewPasswordUserPar
     })
 };
 
-export const postApiRegistrationUserNew = (infoUser: IRegistrationInfoUserParams) => {
-  return request(`${apiUrl}/auth/register`, {
+export const postApiRegistrationUserNew = (infoUser: IRegistrationInfoUserParams): Promise<ITokenResponse> => {
+  return request<ITokenResponse>(`${API_URL}/auth/register`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -104,8 +112,8 @@ export const postApiRegistrationUserNew = (infoUser: IRegistrationInfoUserParams
     })
 };
 
-export const postApiAuthenticationUser = (infoUser: IAuthenticationUserParams) => {
-  return request(`${apiUrl}/auth/login`, {
+export const postApiAuthenticationUser = (infoUser: IAuthenticationUserParams): Promise<ITokenResponse> => {
+  return request<ITokenResponse>(`${API_URL}/auth/login`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -115,8 +123,8 @@ export const postApiAuthenticationUser = (infoUser: IAuthenticationUserParams) =
     })
 };
 
-export const postApiLogoutUser = () => {
-  return request(`${apiUrl}/auth/logout`, {
+export const postApiLogoutUser = (): Promise<IResponseBody> => {
+  return request<IResponseBody>(`${API_URL}/auth/logout`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -126,8 +134,8 @@ export const postApiLogoutUser = () => {
     })
 };
 
-export const postApiRenewalTokenUser = () => {
-  return request(`${apiUrl}/auth/token`, {
+export const postApiRenewalTokenUser = (): Promise<ITokenResponse> => {
+  return request<ITokenResponse>(`${API_URL}/auth/token`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -137,8 +145,8 @@ export const postApiRenewalTokenUser = () => {
     })
 };
 
-export const getApiInfoUser = () => {
-  return secondRequstCaseOfExpired(`${apiUrl}/auth/user`, {
+export const getApiInfoUser = (): Promise<IPersonUserResponse> => {
+  return secondRequstCaseOfExpired<IPersonUserResponse>(`${API_URL}/auth/user`, {
       method: "GET",
       credentials: "same-origin",
       cache: "no-cache",
@@ -158,8 +166,8 @@ export const getApiInfoUser = () => {
     })
 };
 
-export const patchApiUpdateInfoUser = (infoUser: IUpdateInfoUserParams) => {
-  return secondRequstCaseOfExpired(`${apiUrl}/auth/user`, {
+export const patchApiUpdateInfoUser = (infoUser: IUpdateInfoUserParams): Promise<IPersonUserResponse> => {
+  return secondRequstCaseOfExpired<IPersonUserResponse>(`${API_URL}/auth/user`, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
