@@ -1,3 +1,4 @@
+import type { TUserActions } from '../actions/user';
 import { IPersonInfoUser } from '../types/types-api'; 
 import {
   PASSWORD_RESET_REQUEST,
@@ -31,7 +32,7 @@ import {
   UPDATE_INFO_USER_REQUEST,
   UPDATE_INFO_USER_SUCCESS,
   UPDATE_INFO_USER_ERROR
-} from '../actions/user';
+} from '../constants/user';
 
 interface IUser {
   passwordResetRequest: boolean;
@@ -91,7 +92,7 @@ const initialState: IUser = {
   updateInfoUserFailed: false
 }
 
-export const userReducer = (state = initialState, action: any) => {
+export const userReducer = (state = initialState, action: TUserActions): IUser => {
   switch (action.type) {
     case PASSWORD_RESET_REQUEST: {
       return {

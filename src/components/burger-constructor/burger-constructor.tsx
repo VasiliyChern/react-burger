@@ -6,8 +6,9 @@ import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-deve
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 import IngredientConstructor from "../ingredient-constructor/ingredient-constructor";
+import { ORDER_RESET } from '../../services/constants/order';
 import { addIngredientToSelection } from '../../services/actions/selection';
-import { orderBurger, ORDER_RESET } from '../../services/actions/order';
+import { orderBurger } from '../../services/actions/order';
 import { haveUserAccess } from '../../services/actions/user';
 import { useDrop } from "react-dnd";
 import { TIngredientReducerType } from '../../services/types/types-burger';
@@ -40,7 +41,7 @@ const BurgerConstructor = () => {
       navigate('/login');
     }
     else if (burgerBun !== null && filling.length > 0) {
-      let orderIds = [burgerBun._id, ...filling.map(item => item._id)];
+      let orderIds = [burgerBun._id, ...filling.map(item => item._id), burgerBun._id];
 
       dispatch(orderBurger(orderIds));
       setShowOrder(true);

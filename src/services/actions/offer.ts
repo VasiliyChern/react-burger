@@ -1,32 +1,48 @@
 import { getApiBurgerIngredients } from '../utils/data';
-import { TDispatch } from '../types/types-store';
+import { AppDispatch } from '../types/types-store';
+import { TIngredientType } from '../types/types-burger';
+import {
+  GET_INGREDIENTS_API_REQUEST,
+  GET_INGREDIENTS_API_SUCCESS,
+  GET_INGREDIENTS_API_ERROR
+} from '../constants/offer';
 
-export const GET_INGREDIENTS_API_REQUEST = 'GET_INGREDIENTS_API_REQUEST';
-export const GET_INGREDIENTS_API_SUCCESS = 'GET_INGREDIENTS_API_SUCCESS';
-export const GET_INGREDIENTS_API_ERROR = 'GET_INGREDIENTS_API_ERROR';
+export interface IGetIngredientsApiRequestAction {
+  readonly type: typeof GET_INGREDIENTS_API_REQUEST;
+}
+export interface IGetIngredientsApiSuccessAction {
+  readonly type: typeof GET_INGREDIENTS_API_SUCCESS;
+  readonly payload: Array<TIngredientType>;
+}
+export interface IGetIngredientsApiErrorAction {
+  readonly type: typeof GET_INGREDIENTS_API_ERROR;
+}
 
-export function getIngredients() {
-  return function (dispatch: TDispatch) {
-    dispatch({
-      type: GET_INGREDIENTS_API_REQUEST
-    })
-    getApiBurgerIngredients()
-      .then(res => {
-        if (res && res.success) {
-          dispatch({
-            type: GET_INGREDIENTS_API_SUCCESS,
-            payload: res.data
-          })
-        } else {
-          dispatch({
-            type: GET_INGREDIENTS_API_ERROR
-          })
-        }
-      })
-      .catch(error => {
+export type TGetIngredientsApiActions = 
+  | IGetIngredientsApiRequestAction
+  | IGetIngredientsApiSuccessAction
+  | IGetIngredientsApiErrorAction
+
+export const getIngredients = () => (dispatch: AppDispatch) => {
+  dispatch({
+    type: GET_INGREDIENTS_API_REQUEST
+  });
+  getApiBurgerIngredients()
+    .then(res => {
+      if (res && res.success) {
+        dispatch({
+          type: GET_INGREDIENTS_API_SUCCESS,
+          payload: res.data
+        })
+      } else {
         dispatch({
           type: GET_INGREDIENTS_API_ERROR
         })
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_INGREDIENTS_API_ERROR
       })
-  }
-}
+    });
+};

@@ -14,3 +14,17 @@ export type TIngredientType = {
 };
 
 export type TIngredientReducerType = TIngredientType & {id: string};
+
+export type TIngredientPosition = {
+  [name: string]: number;
+}
+
+export type TwsOrderType = {
+  ingredients: Array<string>,
+  _id: string,
+  status: 'done' | 'created' | 'pending',
+  number: number,
+  createdAt: string,
+  updatedAt: string,
+  name: string
+}

@@ -32,7 +32,7 @@ export const StructureProfile = () => {
   return (
     <div className="styles.container">
       <Link to='/profile' className={styles.profilelink}>
-        <h1 className={`${styles.header} text text_type_main-medium ${activeNav === 'user' ? styles.active : 'text_color_inactive'}`}>Профиль</h1>
+        <h1 className={`${styles.header} pt-10 text text_type_main-medium ${activeNav === 'user' ? styles.active : 'text_color_inactive'}`}>Профиль</h1>
       </Link>
       <Link to='/profile/orders' className={styles.profilelink}>
         <h1 className={`${styles.header} text text_type_main-medium ${activeNav === 'orders' ? styles.active : 'text_color_inactive'}`}>История заказов</h1>
@@ -40,7 +40,9 @@ export const StructureProfile = () => {
       <Link to='/' onClick={exitUser} className={styles.profilelink}>
         <h1 className={`${styles.header} text text_type_main-medium text_color_inactive`}>Выход</h1>
       </Link>
-      <p className={`${styles.annotation} text text_type_main-default mt-20`}>В этом разделе Вы можете изменить свои персональные данные</p>
+      <p className={`${styles.annotation} text text_type_main-default mt-20`}>
+        {`В этом разделе Вы можете ${activeNav === 'user' ? 'изменить свои персональные данные' : 'просмотреть свою историю заказов'}`}
+      </p>
     </div>
   );
 };

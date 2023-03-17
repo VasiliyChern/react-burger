@@ -1,7 +1,8 @@
+import type { TIngredientCharacteristicActions } from '../actions/ingredient-characteristic';
 import {
   INGREDIENT_CHARACTERISTIC_SET,
   INGREDIENT_CHARACTERISTIC_RESET
-} from '../actions/ingredient-characteristic';
+} from '../constants/ingredient-characteristic';
 import { TIngredientType } from '../types/types-burger';
 
 interface IIngredientCharacteristic {
@@ -12,7 +13,7 @@ const initialState: IIngredientCharacteristic = {
   ingredient: null
 }
 
-export const ingredientCharacteristicReducer = (state = initialState, action: any) => {
+export const ingredientCharacteristicReducer = (state = initialState, action: TIngredientCharacteristicActions): IIngredientCharacteristic => {
   switch (action.type) {
     case INGREDIENT_CHARACTERISTIC_SET: {
       return {

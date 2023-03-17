@@ -1,9 +1,10 @@
+import type { TSelectionIngredientActions } from '../actions/selection';
 import {
   SELECTION_INGREDIENT_ADD,
   SELECTION_INGREDIENT_DELETE,
   SELECTION_INGREDIENT_REORDER,
   SELECTION_INGREDIENT_RESET
-} from '../actions/selection';
+} from '../constants/selection';
 import { TIngredientReducerType } from '../types/types-burger';
 
 interface ISelectionIngredients {
@@ -16,7 +17,7 @@ const initialState: ISelectionIngredients = {
   filling: []
 }
 
-export const selectionReducer = (state = initialState, action: any) => {
+export const selectionReducer = (state = initialState, action: TSelectionIngredientActions): ISelectionIngredients => {
   switch (action.type) {
     case SELECTION_INGREDIENT_ADD: {
       if (action.payload.type === 'bun') {
