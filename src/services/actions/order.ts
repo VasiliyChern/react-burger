@@ -9,7 +9,8 @@ import {
   ORDER_RESET,
   ORDER_INFO_REQUEST,
   ORDER_INFO_SUCCESS,
-  ORDER_INFO_ERROR
+  ORDER_INFO_ERROR,
+  ORDER_INFO_RESET
 } from '../constants/order';
 
 export interface IOrderRequestAction {
@@ -35,6 +36,9 @@ export interface IOrderInfoSuccessAction {
 export interface IOrderInfoErrorAction {
   readonly type: typeof ORDER_INFO_ERROR;
 }
+export interface IOrderInfoResetAction {
+  readonly type: typeof ORDER_INFO_RESET;
+}
 
 export type TOrderActions = 
   | IOrderRequestAction
@@ -44,6 +48,7 @@ export type TOrderActions =
   | IOrderInfoRequestAction
   | IOrderInfoSuccessAction
   | IOrderInfoErrorAction
+  | IOrderInfoResetAction
 
 export const orderBurger = (details: Array<string>) => (dispatch: AppDispatch) => {
   dispatch({

@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from '../../hooks/hooks';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styles from './ingredient-details.module.css';
 import { TIngredientType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
 const IngredientDetails = () => {
-  const { ingredients } = useSelector(state => state.offerIngredients);
+  const ingredients = useSelector(selectors.ingredients);
   const { id } = useParams();
   const ingredient = useMemo(
     () => ingredients.find((elem: TIngredientType) => elem._id === id),
@@ -45,4 +46,4 @@ const IngredientDetails = () => {
   )
 }
 
-export default IngredientDetails;
+export default React.memo(IngredientDetails);

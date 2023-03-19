@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useEffect, FormEvent } from 'react';
+import React, { useEffect, FormEvent } from 'react';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { createNewPassword } from '../../services/actions/user';
+import { selectors } from '../../services/selectors';
 
-export const ResetPasswordPage = () => {
+const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     password: '', 
@@ -14,7 +15,8 @@ export const ResetPasswordPage = () => {
   });
 
   const navigate = useNavigate();
-  const { passwordInfo, passwordNewInfo } = useSelector(state => state.user);
+  const passwordInfo = useSelector(selectors.passwordInfo);
+  const passwordNewInfo = useSelector(selectors.passwordNewInfo);
 
   const handleSaveNewPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,3 +73,5 @@ export const ResetPasswordPage = () => {
     </section>
   );
 }
+
+export default React.memo(ResetPasswordPage);

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "../../hooks/hooks";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from './app.module.css';
@@ -7,8 +7,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import OrderInfo from "../order-info/order-info";
-import { UserProfile } from '../user-profile/user-profile';
-import { HistoryOrdersProfile } from '../history-orders-profile/history-orders-profile';
+import UserProfile from '../user-profile/user-profile';
+import HistoryOrdersProfile from '../history-orders-profile/history-orders-profile';
 import { getIngredients } from '../../services/actions/offer';
 import {
   LoginPage,
@@ -117,4 +117,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default React.memo(App);

@@ -6,7 +6,8 @@ import {
   ORDER_RESET,
   ORDER_INFO_REQUEST,
   ORDER_INFO_SUCCESS,
-  ORDER_INFO_ERROR
+  ORDER_INFO_ERROR,
+  ORDER_INFO_RESET
 } from '../constants/order';
 import { TwsOrderType } from '../types/types-burger';
 
@@ -78,6 +79,12 @@ export const orderReducer = (state = initialState, action: TOrderActions): IOrde
         ...state,
         orderInfoFailed: true,
         orderInfoRequest: false
+      };
+    }
+    case ORDER_INFO_RESET: {
+      return {
+        ...state,
+        orderInformation: null
       };
     }
     default: {

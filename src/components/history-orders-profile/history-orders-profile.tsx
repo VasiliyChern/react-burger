@@ -1,31 +1,34 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './history-orders-profile.module.css';
 import StructureOrder from '../../components/structure-order/structure-order'; 
-import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws';
+import { wsPersonStart, wsPersonClosed } from '../../services/actions/ws-person';
 import { WS_ORDERS_PERSON_URL } from '../../services/utils/data';
 import { getCookie } from '../../services/utils/cookie';
 import { TwsOrderType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
-export const HistoryOrdersProfile = () => {
+const HistoryOrdersProfile = () => {
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken'); 
 
-  const { orders } = useSelector(state => state.ws);
+  const personOrders = useSelector(selectors.personOrders);
 
   useEffect(() => {
-    dispatch(wsConnectionStart(`${WS_ORDERS_PERSON_URL}?token=${accessToken}`));
+    dispatch(wsPersonStart(`${WS_ORDERS_PERSON_URL}?token=${accessToken}`));
 
     return () => {
-      dispatch(wsConnectionClosed())
+      dispatch(wsPersonClosed())
     }
   }, [dispatch, accessToken]);
 
   return (
     <div className={styles.container}>
-      {orders && orders.map((elem: TwsOrderType, index: number) => 
+      {personOrders && personOrders.slice().reverse().map((elem: TwsOrderType, index: number) => 
         <StructureOrder key={index} order={elem} isPerson={true} />
       )}
     </div>
   );
 }
+
+export default React.memo(HistoryOrdersProfile);

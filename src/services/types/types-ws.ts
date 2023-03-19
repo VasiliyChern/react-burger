@@ -8,7 +8,7 @@ import {
   WS_GET_MESSAGE
 } from '../constants/ws';
 
-export type TwsActionTypes = {
+export type TwsConnectionActionTypes = {
   onStart: typeof WS_CONNECTION_START,
   onOpen: typeof WS_CONNECTION_OPEN,
   onSuccess: typeof WS_CONNECTION_SUCCESS,

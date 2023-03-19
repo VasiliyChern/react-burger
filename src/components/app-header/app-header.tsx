@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styles from './app-header.module.css';
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -63,4 +63,4 @@ const AppHeader = () => {
   );
 }
 
-export default AppHeader;
+export default React.memo(AppHeader);

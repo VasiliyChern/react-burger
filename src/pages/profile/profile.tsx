@@ -1,8 +1,9 @@
+import React from "react";
 import { Outlet } from 'react-router-dom';
 import styles from './profile.module.css';
-import { StructureProfile } from '../../components/structure-profile/structure-profile';
+import StructureProfile from '../../components/structure-profile/structure-profile';
 
-export const ProfilePage = () => {
+const ProfilePage = () => {
   return (
     <section className={styles.section}>
       <StructureProfile />
@@ -10,3 +11,5 @@ export const ProfilePage = () => {
     </section>
   );
 }
+
+export default React.memo(ProfilePage);

@@ -1,10 +1,12 @@
-import { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from "../../hooks/hooks";
 import { useParams } from "react-router-dom";
 import styles from './order-info.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'; 
 import { TIngredientType } from '../../services/types/types-burger';
 import { orderInfoBurger } from '../../services/actions/order';
+import { ORDER_INFO_RESET } from '../../services/constants/order';
+import { selectors } from '../../services/selectors';
 
 const OrderInfo = () => {
   const dispatch = useDispatch();
@@ -12,20 +14,35 @@ const OrderInfo = () => {
 
   useEffect(() => {
     dispatch(orderInfoBurger(id));
+
+    return () => {
+      dispatch({type: ORDER_INFO_RESET})
+    }
   }, [dispatch, id]);
 
-  const { orderInformation } = useSelector(state => state.order);
-  const { ingredients } = useSelector(state => state.offerIngredients);
+  const orderInformation = useSelector(selectors.orderInformation);
+  const ingredients = useSelector(selectors.ingredients);
 
-  const orderIngredients = useMemo(
+  const noDoubleIds = useMemo(
     () => {
       if (orderInformation === null) {
         return null;
       }
-      return orderInformation!.ingredients.map((elemId: string) => {
+      return orderInformation!.ingredients.filter(
+        (item, index) => orderInformation!.ingredients.indexOf(item) === index
+      )
+    }, [orderInformation]
+  );
+
+  const orderIngredients = useMemo(
+    () => {
+      if (noDoubleIds === null) {
+        return null;
+      }
+      return noDoubleIds.map((elemId: string) => {
         return ingredients.find((elem: TIngredientType) => elem._id === elemId)
       })
-    }, [ingredients, orderInformation]
+    }, [ingredients, noDoubleIds]
   );
 
   const orderAmount = useMemo(
@@ -33,8 +50,10 @@ const OrderInfo = () => {
       if (orderIngredients === null) {
         return null;
       }
-      return orderIngredients!.reduce( (amount: number, elem: TIngredientType | undefined) => elem!.price + amount, 0)
-    }, [orderIngredients]
+      return orderIngredients.reduce( (amount: number, elem: TIngredientType | undefined) => 
+        amount + elem!.price * (orderInformation!.ingredients.filter((elemId: string) => elemId === elem!._id).length)
+      , 0)
+    }, [orderIngredients, orderInformation]
   );
 
   const orderStatus = useMemo(
@@ -68,6 +87,7 @@ const OrderInfo = () => {
           </p>
           <section className={styles.fill_order}>
             {orderIngredients && orderIngredients.map((item: TIngredientType | undefined, i: number) => {
+              const itemCount = orderInformation!.ingredients.filter((elemId: string) => elemId === item!._id).length;
               return (
                 <li key={i} className="mt-4 mr-6">
                   <div className={styles.row_fill}>
@@ -78,7 +98,7 @@ const OrderInfo = () => {
                       <p className={`text text_type_main-default ml-4 ${styles.pname}`}>{item!.name}</p>
                     </div>
                     <div className={styles.count_price}>
-                      <span className="text text_type_digits-default mr-2">{`1 x ${item!.price}`}</span>
+                      <span className="text text_type_digits-default mr-2">{`${itemCount} x ${item!.price}`}</span>
                       <CurrencyIcon type="primary" />
                     </div>
                   </div>
@@ -102,4 +122,4 @@ const OrderInfo = () => {
   );
 }
 
-export default OrderInfo;
+export default React.memo(OrderInfo);

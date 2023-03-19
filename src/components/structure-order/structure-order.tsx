@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from '../../hooks/hooks';
 import styles from './structure-order.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'; 
 import { TwsOrderType, TIngredientType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
 type TStructureOrderProps = {
   readonly order: TwsOrderType;
@@ -14,7 +15,7 @@ const StructureOrder = (props: TStructureOrderProps) => {
   const location = useLocation(); 
   const countItemsMax = 6;
 
-  const { ingredients } = useSelector(state => state.offerIngredients);
+  const ingredients = useSelector(selectors.ingredients);
 
   const orderStatus = useMemo(
     () => props.order.status === 'done'
@@ -99,4 +100,4 @@ const StructureOrder = (props: TStructureOrderProps) => {
   );
 }
 
-export default StructureOrder;
+export default React.memo(StructureOrder);

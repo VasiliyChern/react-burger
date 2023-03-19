@@ -5,6 +5,7 @@ import {ingredientCharacteristicReducer} from './ingredient-characteristic';
 import {orderReducer} from './order';
 import {userReducer} from './user';
 import {wsReducer} from './ws';
+import {wsPersonReducer} from './ws-person';
 
 export const rootReducer = combineReducers({
   offerIngredients: offerReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   characteristicIngredient: ingredientCharacteristicReducer,
   order: orderReducer,
   user: userReducer,
-  ws: wsReducer
+  ws: wsReducer,
+  wsPerson: wsPersonReducer
 });

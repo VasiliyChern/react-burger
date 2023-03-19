@@ -1,12 +1,13 @@
-import { FormEvent } from "react";
+import React, { FormEvent } from "react";
 import { useDispatch, useSelector } from '../../hooks/hooks';
 import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { registrationUser } from '../../services/actions/user';
+import { selectors } from '../../services/selectors';
 
-export const RegisterPage = () => {
+const RegisterPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     email: '',
@@ -15,7 +16,7 @@ export const RegisterPage = () => {
   });
 
   const navigate = useNavigate();
-  const { registrationUserRequest } = useSelector(state => state.user);
+  const registrationUserRequest = useSelector(selectors.registrationUserRequest);
 
   const handleRegisterUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -72,3 +73,5 @@ export const RegisterPage = () => {
     </section>
   );
 }
+
+export default React.memo(RegisterPage);

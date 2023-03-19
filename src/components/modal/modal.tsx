@@ -1,4 +1,4 @@
-import { useEffect, ReactElement } from "react";
+import React, { useEffect, ReactElement } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -49,4 +49,4 @@ const Modal = (props: IModalProps) => {
   )
 }
 
-export default Modal;
+export default React.memo(Modal);

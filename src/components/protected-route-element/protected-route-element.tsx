@@ -1,7 +1,8 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { useSelector } from '../../hooks/hooks';
 import { Navigate, useLocation } from 'react-router-dom';
 import { haveUserAccess } from '../../services/actions/user';
+import { selectors } from '../../services/selectors';
 
 interface IProtectedRouteElementProps {
   successUsers: boolean;
@@ -15,7 +16,7 @@ const ProtectedRouteElement = ({
 
   const location = useLocation();
   const successUserLogged = haveUserAccess();
-  const { userInfo } = useSelector(state => state.user);
+  const userInfo = useSelector(selectors.userInfo);
   const isLoggedIn = (successUserLogged || userInfo);
 
   if (!successUsers && isLoggedIn) {
@@ -30,4 +31,4 @@ const ProtectedRouteElement = ({
   return children;
 }
 
-export default ProtectedRouteElement;
+export default React.memo(ProtectedRouteElement);

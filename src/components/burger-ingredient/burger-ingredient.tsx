@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './burger-ingredient.module.css';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import { TIngredientType } from '../../services/types/types-burger';
@@ -43,4 +44,4 @@ const BurgerIngredient = ( props: TBurgerIngredientProps) => {
   )
 };
 
-export default BurgerIngredient;
+export default React.memo(BurgerIngredient);

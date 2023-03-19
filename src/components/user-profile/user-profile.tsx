@@ -1,14 +1,16 @@
-import { useEffect, useMemo, FormEvent } from "react";
+import React, { useEffect, useMemo, FormEvent } from "react";
 import { useSelector, useDispatch } from '../../hooks/hooks';
 import styles from './user-profile.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useForm } from '../../hooks/useForm';
 import { renewalInfoUser, updateInfoUser } from '../../services/actions/user';
 import { IUpdateInfoUserParams } from '../../services/types/types-api';
+import { selectors } from '../../services/selectors';
 
-export const UserProfile = () => {
+const UserProfile = () => {
   const dispatch = useDispatch();
-  const { userInfo, updateInfoUserRequest } = useSelector(state => state.user);
+  const userInfo = useSelector(selectors.userInfo); 
+  const updateInfoUserRequest = useSelector(selectors.updateInfoUserRequest); 
 
   const valuesFromUserInfo = useMemo(
     () => {
@@ -119,3 +121,5 @@ export const UserProfile = () => {
     </>
   )
 }
+
+export default React.memo(UserProfile);

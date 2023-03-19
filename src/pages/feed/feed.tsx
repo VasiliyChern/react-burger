@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import styles from './feed.module.css';
 import StructureOrder from '../../components/structure-order/structure-order'; 
 import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws';
 import { WS_ORDERS_FEED_URL } from '../../services/utils/data';
 import { TwsOrderType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
-export const FeedPage = () => {
+const FeedPage = () => {
   const dispatch = useDispatch();
   const location = useLocation(); 
 
@@ -19,7 +20,9 @@ export const FeedPage = () => {
     }
   }, [dispatch]);
 
-  const { orders, total, totalToday } = useSelector(state => state.ws);
+  const orders = useSelector(selectors.orders); 
+  const total = useSelector(selectors.total); 
+  const totalToday = useSelector(selectors.totalToday); 
 
   const countRowInColumn = 10;
   
@@ -124,3 +127,5 @@ export const FeedPage = () => {
     </main>
   );
 }
+
+export default React.memo(FeedPage);

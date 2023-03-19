@@ -5,14 +5,9 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE
 } from '../constants/ws';
+import { wsocketStatus } from '../constants/enums';
 import type { TWsActions } from '../actions/ws';
 import { TwsOrderType } from '../types/types-burger';
-
-export enum wsocketStatus {
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-  CONNECTING = 'CONNECTING'
-}
 
 interface Iwsocket {
   wsConnectedStatus: wsocketStatus,
@@ -61,7 +56,7 @@ export const wsReducer = (state = initialState, action: TWsActions): Iwsocket =>
       return {
         ...state,
         error: undefined,
-        orders: [...action.payload.orders.slice().reverse()],
+        orders: [...action.payload.orders],
         total: action.payload.total,
         totalToday: action.payload.totalToday
       };

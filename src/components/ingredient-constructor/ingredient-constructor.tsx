@@ -1,5 +1,5 @@
 import { useDispatch } from '../../hooks/hooks';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import styles from './ingredient-constructor.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import { SELECTION_INGREDIENT_REORDER, SELECTION_INGREDIENT_DELETE } from '../../services/constants/selection';
@@ -87,4 +87,4 @@ const IngredientConstructor = ({ item, index }: TIngredientConstructorProps) => 
   )
 };
 
-export default IngredientConstructor;
+export default React.memo(IngredientConstructor);

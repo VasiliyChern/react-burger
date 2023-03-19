@@ -7,8 +7,13 @@ import { TOrderActions } from '../actions/order';
 import { TSelectionIngredientActions } from '../actions/selection';
 import { TUserActions } from '../actions/user';
 import { TWsActions } from '../actions/ws';
+import { TWsPersonActions } from '../actions/ws-person';
+import { TwsConnectionActionTypes } from './types-ws';
+import { TwsPersonActionTypes } from './types-ws-person';
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type TwsActionTypes = TwsConnectionActionTypes | TwsPersonActionTypes;
+
+export type TRootState = ReturnType<typeof rootReducer>;
 
 type TApplicationActions = 
   | TIngredientCharacteristicActions
@@ -16,11 +21,12 @@ type TApplicationActions =
   | TOrderActions
   | TSelectionIngredientActions
   | TUserActions
-  | TWsActions;
+  | TWsActions
+  | TWsPersonActions;
 
-export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
+export type AppDispatch = ThunkDispatch<TRootState, never, TApplicationActions>;
 
 export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, RootState, Action, TApplicationActions>
+  ThunkAction<ReturnType, TRootState, Action, TApplicationActions>
 >;
 
