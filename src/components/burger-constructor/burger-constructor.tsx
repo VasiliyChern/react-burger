@@ -1,22 +1,27 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import {CurrencyIcon, Button, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 import IngredientConstructor from "../ingredient-constructor/ingredient-constructor";
+import { ORDER_RESET } from '../../services/constants/order';
 import { addIngredientToSelection } from '../../services/actions/selection';
-import { orderBurger, ORDER_RESET } from '../../services/actions/order';
+import { orderBurger } from '../../services/actions/order';
 import { haveUserAccess } from '../../services/actions/user';
 import { useDrop } from "react-dnd";
 import { TIngredientReducerType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
-  const {order, orderRequest} = useSelector(state => state.order);
+
+  const burgerBun = useSelector(selectors.burgerBun);
+  const filling = useSelector(selectors.filling);
+  const order = useSelector(selectors.order);
+  const orderRequest = useSelector(selectors.orderRequest);
 
   const [showOrder, setShowOrder] = useState(false);
 
@@ -40,7 +45,7 @@ const BurgerConstructor = () => {
       navigate('/login');
     }
     else if (burgerBun !== null && filling.length > 0) {
-      let orderIds = [burgerBun._id, ...filling.map(item => item._id)];
+      let orderIds = [burgerBun._id, ...filling.map(item => item._id), burgerBun._id];
 
       dispatch(orderBurger(orderIds));
       setShowOrder(true);
@@ -121,4 +126,4 @@ const BurgerConstructor = () => {
   )
 };
 
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);

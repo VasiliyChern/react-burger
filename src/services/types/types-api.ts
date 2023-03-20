@@ -1,4 +1,4 @@
-import { TIngredientType } from './types-burger';
+import { TIngredientType, TwsOrderType } from './types-burger';
 
 export interface ICreateNewPasswordUserParams {
   password: string;
@@ -60,4 +60,8 @@ export interface ITokenResponse extends IResponseBody {
   accessToken: string;
   refreshToken: string;
   user: IPersonInfoUser;
+}
+
+export interface IGetBurgerOrderResponse extends IResponseBody {
+  orders: Array<TwsOrderType>;
 }

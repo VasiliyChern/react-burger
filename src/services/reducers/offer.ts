@@ -1,8 +1,9 @@
+import type { TGetIngredientsApiActions } from '../actions/offer';
 import {
   GET_INGREDIENTS_API_REQUEST,
   GET_INGREDIENTS_API_SUCCESS,
   GET_INGREDIENTS_API_ERROR
-} from '../actions/offer';
+} from '../constants/offer';
 import { TIngredientType } from '../types/types-burger';
 
 interface IOffer {
@@ -17,7 +18,7 @@ const initialState: IOffer = {
   ingredients: []
 }
 
-export const offerReducer = (state = initialState, action: any) => {
+export const offerReducer = (state = initialState, action: TGetIngredientsApiActions): IOffer => {
   switch (action.type) {
     case GET_INGREDIENTS_API_REQUEST: {
       return {

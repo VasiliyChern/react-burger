@@ -1,3 +1,4 @@
+import React from "react";
 import styles from './order-details.module.css';
 import doneImage from '../../images/done.jpg';
 
@@ -25,4 +26,4 @@ const OrderDetails = (props: TOrderDetailsProps) => {
   );
 }
 
-export default OrderDetails;
+export default React.memo(OrderDetails);

@@ -3,6 +3,7 @@ import React, { LegacyRef } from 'react';
 import styles from './tab-ingredients.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient'; 
 import { TIngredientType, TIngredientReducerType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
 type TTabIngredientsProps = {
   ingredients: Array<TIngredientType>;
@@ -11,7 +12,9 @@ type TTabIngredientsProps = {
 }
 
 const TabIngredients = React.forwardRef<HTMLHeadingElement, TTabIngredientsProps>((props: TTabIngredientsProps, ref: LegacyRef<HTMLDivElement> | undefined) => {
-  const {burgerBun, filling} = useSelector(state => state.selectionIngredients);
+  const burgerBun = useSelector(selectors.burgerBun);
+  const filling = useSelector(selectors.filling);
+
   const burgerBunId = burgerBun !== null ? burgerBun._id : "";
   const ingredients = props.ingredients.filter(elem => elem);
 
@@ -31,4 +34,4 @@ const TabIngredients = React.forwardRef<HTMLHeadingElement, TTabIngredientsProps
   );
 });
 
-export default TabIngredients;
+export default React.memo(TabIngredients);

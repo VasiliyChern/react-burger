@@ -6,4 +6,5 @@
     width: 100%;
     max-width: 2080px;
     height: 100%;
+    z-index: 40;
 }

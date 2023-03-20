@@ -1,19 +1,20 @@
 import { useDispatch, useSelector } from '../../hooks/hooks';
-import { useEffect, FormEvent } from 'react';
+import React, { useEffect, FormEvent } from 'react';
 import styles from './forgot-password.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { resetPassword } from '../../services/actions/user';
+import { selectors } from '../../services/selectors';
 
-export const ForgotPasswordPage = () => {
+const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     email: ''
   });
 
   const navigate = useNavigate();
-  const { passwordInfo } = useSelector(state => state.user);
+  const passwordInfo = useSelector(selectors.passwordInfo);
 
   const handleResetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,3 +61,5 @@ export const ForgotPasswordPage = () => {
     </section>
   );
 }
+
+export default React.memo(ForgotPasswordPage);

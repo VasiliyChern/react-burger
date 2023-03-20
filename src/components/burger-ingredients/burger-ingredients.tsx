@@ -1,13 +1,16 @@
 import { useSelector } from '../../hooks/hooks';
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components' 
 import { useInView } from 'react-intersection-observer';
 import TabIngredients from '../tab-ingredients/tab-ingredients'; 
 import { TIngredientType } from '../../services/types/types-burger';
+import { selectors } from '../../services/selectors';
 
 const BurgerIngredients = () => {
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(state => state.offerIngredients);
+  const ingredients = useSelector(selectors.ingredients);
+  const ingredientsRequest = useSelector(selectors.ingredientsRequest);
+  const ingredientsFailed = useSelector(selectors.ingredientsFailed);
 
   const [current, setCurrent] = useState('bun');
 
@@ -96,4 +99,4 @@ const BurgerIngredients = () => {
   return <></>
 }
 
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);

@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./modal-overlay.module.css"
 
 interface IModalOverlayProps {
@@ -10,4 +11,4 @@ const ModalOverlay = (props: IModalOverlayProps) => {
   )
 }
 
-export default ModalOverlay;
+export default React.memo(ModalOverlay);

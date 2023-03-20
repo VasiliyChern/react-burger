@@ -7,13 +7,17 @@ import {
   TResponse,
   IResponseBody,
   IGetBurgerIngredientsResponse,
+  IGetBurgerOrderResponse,
   IPostOrderResponse,
   IUserResponse,
   IPersonUserResponse,
   ITokenResponse
 } from '../types/types-api';
 
-const API_URL =  'https://norma.nomoreparties.space/api';
+const API_URL: string =  'https://norma.nomoreparties.space/api';
+
+export const WS_ORDERS_PERSON_URL: string = 'wss://norma.nomoreparties.space/orders'; 
+export const WS_ORDERS_FEED_URL: string = 'wss://norma.nomoreparties.space/orders/all';
 
 function validateResponse<T>(result: TResponse<T>): Promise<T> | Promise<never> { 
   return (result.ok) 
@@ -175,5 +179,20 @@ export const patchApiUpdateInfoUser = (infoUser: IUpdateInfoUserParams): Promise
         'Authorization': 'Bearer ' + getCookie('accessToken')
       },
       body: JSON.stringify(infoUser)
+    })
+};
+
+export const getApiBurgerOrderInfo = (numberOrder: string | undefined): Promise<IGetBurgerOrderResponse> => {
+  return request<IGetBurgerOrderResponse>(`${API_URL}/orders/${numberOrder}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(data => {
+      if (data?.success) {
+        return data;
+      }
+      return Promise.reject(data);
     })
 };

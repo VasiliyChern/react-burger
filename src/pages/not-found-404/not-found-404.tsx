@@ -1,7 +1,8 @@
+import React from "react";
 import styles from './not-found-404.module.css';
 import { Link } from 'react-router-dom';
 
-export const NotFound404Page = () => {
+const NotFound404Page = () => {
 
   return (
     <section className={styles.section}>
@@ -15,3 +16,5 @@ export const NotFound404Page = () => {
     </section>
   );
 }
+
+export default React.memo(NotFound404Page);

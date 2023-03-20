@@ -1,19 +1,21 @@
-import { FormEvent } from "react";
+import React, { FormEvent } from "react";
 import { useDispatch, useSelector } from '../../hooks/hooks';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { authenticationUser } from '../../services/actions/user';
+import { selectors } from '../../services/selectors';
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const dispatch = useDispatch();
   const {values, handleChange} = useForm({
     email: '',
     password: ''
   });
 
-  const { authenticationUserRequest, authenticationUserFailed } = useSelector(state => state.user);
+  const authenticationUserRequest = useSelector(selectors.authenticationUserRequest);
+  const authenticationUserFailed = useSelector(selectors.authenticationUserFailed);
 
   const handleLoginUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,3 +78,5 @@ export const LoginPage = () => {
     </section>
   );
 }
+
+export default React.memo(LoginPage);
