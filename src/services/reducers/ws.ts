@@ -17,7 +17,7 @@ interface Iwsocket {
   error: string | undefined
 }
 
-const initialState: Iwsocket = {
+export const initialState: Iwsocket = {
   wsConnectedStatus: wsocketStatus.OFFLINE,
   orders: [],
   total: null,

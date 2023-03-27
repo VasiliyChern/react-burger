@@ -1,4 +1,5 @@
 import { TwsOrderType } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 import {
   WS_PERSON_START,
   WS_PERSON_OPEN,
@@ -9,7 +10,7 @@ import {
   WS_PERSON_GET_MESSAGE
 } from '../constants/ws-person';
 
-interface IWsPersonMessage {
+export interface IWsPersonMessage {
   orders: TwsOrderType[]
 }
 
@@ -46,6 +47,7 @@ export type TWsPersonActions =
   | IWsPersonDisconnectAction
   | IWsPersonErrorAction
   | IWsPersonGetMessageAction
+  | INullTypeAction
 
 export const wsPersonStart = (url: string): IWsPersonStartAction => {
   return {

@@ -65,3 +65,7 @@ export interface ITokenResponse extends IResponseBody {
 export interface IGetBurgerOrderResponse extends IResponseBody {
   orders: Array<TwsOrderType>;
 }
+
+export interface INullTypeAction {
+  readonly type: null;
+}

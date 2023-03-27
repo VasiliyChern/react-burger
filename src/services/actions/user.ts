@@ -17,6 +17,7 @@ import {
   TRedirect,
   IPersonInfoUser
 } from '../types/types-api';
+import { INullTypeAction } from '../types/types-api';
 import { AppDispatch } from '../types/types-store';
 import {
   PASSWORD_RESET_REQUEST,
@@ -163,6 +164,7 @@ export type TUserActions =
   | IUpdateInfoUserRequestAction
   | IUpdateInfoUserSuccessAction
   | IUpdateInfoUserErrorAction
+  | INullTypeAction
 
 export const resetPassword = (infoEmail: string) => (dispatch: AppDispatch) => {
   dispatch({

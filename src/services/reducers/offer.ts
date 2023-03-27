@@ -12,7 +12,7 @@ interface IOffer {
   ingredients: Array<TIngredientType>;
 }
 
-const initialState: IOffer = {
+export const initialState: IOffer = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredients: []

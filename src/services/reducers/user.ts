@@ -63,7 +63,7 @@ interface IUser {
   updateInfoUserFailed: boolean;
 } 
 
-const initialState: IUser = {
+export const initialState: IUser = {
   passwordResetRequest: false,
   passwordResetFailed: false,
   passwordInfo: null,

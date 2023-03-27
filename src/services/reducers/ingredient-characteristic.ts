@@ -9,7 +9,7 @@ interface IIngredientCharacteristic {
   ingredient: TIngredientType | null;
 }
 
-const initialState: IIngredientCharacteristic = {
+export const initialState: IIngredientCharacteristic = {
   ingredient: null
 }
 

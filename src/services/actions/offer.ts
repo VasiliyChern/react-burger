@@ -1,6 +1,7 @@
 import { getApiBurgerIngredients } from '../utils/data';
 import { AppDispatch } from '../types/types-store';
 import { TIngredientType } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 import {
   GET_INGREDIENTS_API_REQUEST,
   GET_INGREDIENTS_API_SUCCESS,
@@ -22,6 +23,7 @@ export type TGetIngredientsApiActions =
   | IGetIngredientsApiRequestAction
   | IGetIngredientsApiSuccessAction
   | IGetIngredientsApiErrorAction
+  | INullTypeAction
 
 export const getIngredients = () => (dispatch: AppDispatch) => {
   dispatch({
