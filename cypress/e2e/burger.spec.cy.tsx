@@ -12,9 +12,16 @@ describe('service burger-constructor is available', () => {
   it('open/close modal window', () => {
     cy.get('[class^=burger-ingredient_container_ingredients]').first().click();
     cy.contains('Детали ингредиента');
+    cy.contains('Калории');
+    cy.contains('Углеводы');
+    cy.wait(2000);
     cy.get('[class^=modal_header]').children().last().click();
+
     cy.get('[class^=burger-ingredient_container_ingredients]').last().click();
     cy.contains('Детали ингредиента');
+    cy.contains('Белки');
+    cy.contains('Жиры');
+    cy.wait(2000);
     cy.get('[class^=modal_header]').children().last().click();
   })
 
@@ -40,9 +47,9 @@ describe('service burger-constructor is available', () => {
     cy.get('[class*=input_type_email]').children().last().type(infoLogin.login)
     cy.get('[class*=input_type_password]').children().first().next().type(infoLogin.password)
     cy.get('[class^=login_button]').children().first().click();
-    cy.wait(5000);
+    cy.wait(3000);
     cy.get('.button').contains('Оформить заказ').click();
-    cy.wait(25000);
+    cy.wait(20000);
     cy.contains('идентификатор заказа');
     cy.get('[class^=modal_header]').children().last().click();
   })
