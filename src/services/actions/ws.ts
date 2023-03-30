@@ -1,4 +1,5 @@
 import { TwsOrderType } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_OPEN,
@@ -9,7 +10,7 @@ import {
   WS_GET_MESSAGE
 } from '../constants/ws';
 
-interface IWsMessage {
+export interface IWsMessage {
   orders: TwsOrderType[],
   total: number | null,
   totalToday: number | null
@@ -48,6 +49,7 @@ export type TWsActions =
   | IWsConnectionDisconnectAction
   | IWsConnectionErrorAction
   | IWsGetMessageAction
+  | INullTypeAction
 
 export const wsConnectionStart = (url: string): IWsConnectionStartAction => {
   return {

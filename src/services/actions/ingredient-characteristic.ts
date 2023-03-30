@@ -3,6 +3,7 @@ import {
   INGREDIENT_CHARACTERISTIC_RESET
 } from '../constants/ingredient-characteristic';
 import { TIngredientType } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 
 export interface IIngredientCharacteristicSetAction {
   readonly type: typeof INGREDIENT_CHARACTERISTIC_SET;
@@ -15,3 +16,4 @@ export interface IIngredientCharacteristicResetAction {
 export type TIngredientCharacteristicActions = 
   | IIngredientCharacteristicSetAction
   | IIngredientCharacteristicResetAction
+  | INullTypeAction

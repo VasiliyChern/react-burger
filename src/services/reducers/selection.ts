@@ -12,7 +12,7 @@ interface ISelectionIngredients {
   filling: Array<TIngredientReducerType>;
 } 
 
-const initialState: ISelectionIngredients = {
+export const initialState: ISelectionIngredients = {
   burgerBun: null,
   filling: []
 }

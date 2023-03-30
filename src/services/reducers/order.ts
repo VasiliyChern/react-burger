@@ -20,7 +20,7 @@ interface IOrder {
   orderInformation: TwsOrderType | null;
 }
 
-const initialState: IOrder = {
+export const initialState: IOrder = {
   orderRequest: false,
   orderFailed: false,
   order: 0,

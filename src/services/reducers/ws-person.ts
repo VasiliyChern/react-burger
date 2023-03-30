@@ -15,7 +15,7 @@ interface IpersonSocket {
   error: string | undefined
 }
 
-const initialState: IpersonSocket = {
+export const initialState: IpersonSocket = {
   wsPersonStatus: wsocketStatus.OFFLINE,
   personOrders: [],
   error: undefined

@@ -1,5 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import { TIngredientType, TIngredientReducerType, TIngredientPosition } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 import {
   SELECTION_INGREDIENT_ADD,
   SELECTION_INGREDIENT_DELETE,
@@ -28,6 +29,7 @@ export type TSelectionIngredientActions =
   | ISelectionIngredientDeleteAction
   | ISelectionIngredientReorderAction
   | ISelectionIngredientResetAction
+  | INullTypeAction
 
 export const addIngredientToSelection = (ingredient: TIngredientType): ISelectionIngredientAddAction => {
   return {

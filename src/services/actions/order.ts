@@ -1,6 +1,7 @@
 import { postApiBurgerOrder, getApiBurgerOrderInfo } from '../utils/data';
 import { AppDispatch } from '../types/types-store';
 import { TwsOrderType } from '../types/types-burger';
+import { INullTypeAction } from '../types/types-api';
 import { SELECTION_INGREDIENT_RESET } from '../constants/selection';
 import {
   ORDER_REQUEST,
@@ -49,6 +50,7 @@ export type TOrderActions =
   | IOrderInfoSuccessAction
   | IOrderInfoErrorAction
   | IOrderInfoResetAction
+  | INullTypeAction
 
 export const orderBurger = (details: Array<string>) => (dispatch: AppDispatch) => {
   dispatch({

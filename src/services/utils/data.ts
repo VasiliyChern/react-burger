@@ -58,7 +58,7 @@ function secondRequstCaseOfExpired<T>(url: string, options: RequestInit): Promis
 
 export const getApiBurgerIngredients = (): Promise<IGetBurgerIngredientsResponse> => {
   return request<IGetBurgerIngredientsResponse>(`${API_URL}/ingredients`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
